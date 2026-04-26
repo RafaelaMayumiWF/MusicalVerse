@@ -1,0 +1,253 @@
+:root {
+  /* variaveis do ambiente */
+  --fontTitle: arial;
+  --fontDefault: arial;
+}
+
+* {
+  /* reset de estilo*/
+  padding: 0;
+  margin: 0;
+  font-family: var(--fontDefault);
+}
+
+/* ================================================ 
+                    Header
+================================================ */
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: transparent;
+  padding: 10px 20px;
+  align-items: center;
+  position: absolute;
+  width: calc(100% - 40px);
+}
+header nav {
+  position: absolute;
+  translate: -50%;
+  left: 50%;
+  display: flex;
+  gap: 20px;
+}
+header nav a {
+  text-decoration: none;
+  color: black;
+  border-bottom: 1px solid transparent;
+}
+header nav a.active,
+header nav a:hover {
+  border-bottom: 1px solid black;
+}
+header button {
+  padding: 10px 30px;
+  border: 1px solid black;
+}
+
+/* ================================================ 
+                    Intro
+================================================ */
+
+#intro {
+  padding-top: 100px;
+}
+#intro article {
+  width: 50%;
+  padding: 60px;
+  min-width: 400px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#intro article button {
+  padding: 10px 40px;
+  width: fit-content;
+  border: none;
+}
+
+/* ================================================ 
+                    Banner
+================================================ */
+
+#banner {
+  display: flex;
+  justify-content: end;
+  background-color: aquamarine;
+}
+
+#banner article {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px 60px;
+  text-align: end;
+  max-width: 600px;
+}
+
+/* ================================================ 
+                    Top 3 musicas
+================================================ */
+
+#top3 {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 60px;
+  gap: 20px;
+  align-items: center;
+}
+#top3 ul {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  list-style: none;
+}
+#top3 ul li {
+  display: flex;
+  flex-direction: column;
+  border-radius: 40px 0;
+  overflow: hidden;
+}
+#top3 ul li img {
+  height: 300px;
+  width: 100%;
+  background-color: antiquewhite;
+}
+#top3 ul li article {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+  background-color: aquamarine;
+}
+#top3 ul li article button {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  border: none;
+}
+#top3 ul li article div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+}
+
+/* ================================================ 
+                    Lista de musicas
+================================================ */
+#listaMusicas{
+    padding: 40px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    align-items: center;
+}
+#listaMusicas ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    align-items: center;
+}
+#listaMusicas ul li{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 400px;
+    height: 150px;
+    padding: 10px;
+    background-color: aquamarine;
+    border-radius: 30px 10px 10px 10px;
+    filter: opacity(75%);
+}
+#listaMusicas ul li.active{
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    height: 200px;
+    filter:none;
+    translate: -50%;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+}
+#listaMusicas ul li button{
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    border: none;
+}
+#listaMusicas ul li article{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+        align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+#listaMusicasContainer{
+    display: flex;
+    align-items: center;
+}
+#listaMusicasContainer button{
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+#prev,#next{
+    z-index: 1;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+}
+#prev{
+    translate: 20px;
+
+}
+#next{
+    translate: -20px;
+}
+
+/* ================================================ 
+                TROCAR_O_ID_PARA_O_TOPICO
+================================================ */
+
+#TROCAR_O_ID_PARA_O_TOPICO{
+    padding: 40px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+#TROCAR_O_ID_PARA_O_TOPICO article{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    text-align: end;
+    
+}
+#TROCAR_O_ID_PARA_O_TOPICO article img{
+    width: 400px;
+    height: 200px;
+}
+#TROCAR_O_ID_PARA_O_TOPICO article div{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    align-items: end;
+}
+#TROCAR_O_ID_PARA_O_TOPICO article div button{
+    padding: 10px 40px;
+    border-radius: 100px;
+    border: none;
+    width: fit-content;
+}
+#TROCAR_O_ID_PARA_O_TOPICO article.right{
+    flex-direction: row-reverse;
+    text-align: start;
+}
+#TROCAR_O_ID_PARA_O_TOPICO article.right div{
+    align-items: start;
+}
