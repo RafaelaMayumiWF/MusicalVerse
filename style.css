@@ -314,3 +314,23 @@ header button {
   border-radius: 100px;
   border: none;
 }
+
+/* ================================================ 
+                Agradecimentos
+================================================ */
+
+#Agradecimentos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+  height: 100vh;
+}
+
+section#Agradecimentos {
+  background-color: rgb(84, 70, 97);
+  height: 500px;
+  width: 500px;
+}
+
