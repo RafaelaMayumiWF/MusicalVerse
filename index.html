@@ -10,7 +10,7 @@
   <title>Document</title>
 </head>
 
-<body>
+<body id="Home">
   <header>
     <img src="" alt="" />
     <nav>
@@ -90,9 +90,9 @@
       <h2>Lorem ipsum dolor sit amet.</h2>
 
       <div id="listaMusicasContainer">
-        <button id="prev">p</button>
+        <button onclick="anterior()">←</button>
         <ul id="listaMusicasTrack">
-          <li>
+          <li id="c1">
             <button></button>
             <article>
               <strong>Lorem ipsum</strong>
@@ -104,7 +104,7 @@
             </article>
           </li>
 
-          <li class="active">
+          <li id="c2">
             <button></button>
             <article>
               <strong>Lorem ipsum</strong>
@@ -116,7 +116,7 @@
             </article>
           </li>
 
-          <li>
+          <li id="c3">
             <button></button>
             <article>
               <strong>Lorem ipsum</strong>
@@ -128,7 +128,7 @@
             </article>
           </li>
         </ul>
-        <button id="next">n</button>
+        <button onclick="proximo()">→</button>
       </div>
     </section>
 
@@ -167,3 +167,5 @@
 </body>
 
 </html>
+
+<script src="script.js"></script>

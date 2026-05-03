@@ -132,143 +132,141 @@ header button {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  
 }
 
 /* ================================================ 
                     Lista de musicas
 ================================================ */
-#listaMusicas{
-    padding: 40px 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 60px;
-    align-items: center;
+#listaMusicas {
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  align-items: center;
 }
-#listaMusicas ul{
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-    align-items: center;
+#listaMusicas ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  align-items: center;
 }
-#listaMusicas ul li{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    width: 400px;
-    height: 150px;
-    padding: 10px;
-    background-color: aquamarine;
-    border-radius: 30px 10px 10px 10px;
-    filter: opacity(75%);
+#listaMusicas ul li {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 400px;
+  height: 150px;
+  padding: 10px;
+  background-color: aquamarine;
+  border-radius: 30px 10px 10px 10px;
+  filter: opacity(75%);
+  position: relative;
 }
-#listaMusicas ul li.active{
-    z-index: 1;
-    position: absolute;
-    left: 50%;
-    height: 200px;
-    filter:none;
-    translate: -50%;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+#listaMusicas ul li.active {
+  /*z-index: 1;*/
+  position: absolute;
+  left: 50%;
+  height: 200px;
+  filter: none;
+  translate: -50%;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
 }
-#listaMusicas ul li button{
-    min-width: 40px;
-    height: 40px;
-    border-radius: 50px;
-    border: none;
+#listaMusicas ul li button {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  border: none;
 }
-#listaMusicas ul li article{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-        align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
+#listaMusicas ul li article {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
 }
-#listaMusicasContainer{
-    display: flex;
-    align-items: center;
+#listaMusicasContainer {
+  display: flex;
+  align-items: center;
 }
-#listaMusicasContainer button{
-    width: 40px;
-    height: 40px;
-    border: none;
+#listaMusicasContainer button {
+  width: 40px;
+  height: 40px;
+  border: none;
 }
-#prev,#next{
-    z-index: 1;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 100px;
+#prev,
+#next {
+  z-index: 1;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 100px;
 }
-#prev{
-    translate: 20px;
-
+#prev {
+  translate: 20px;
 }
-#next{
-    translate: -20px;
+#next {
+  translate: -20px;
 }
 
 /* ================================================ 
                 TROCAR_O_ID_PARA_O_TOPICO
 ================================================ */
 
-#TROCAR_O_ID_PARA_O_TOPICO{
-    padding: 40px 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+#TROCAR_O_ID_PARA_O_TOPICO {
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
-#TROCAR_O_ID_PARA_O_TOPICO article{
-    display: flex;
-    gap: 20px;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    text-align: end;
-    
+#TROCAR_O_ID_PARA_O_TOPICO article {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  text-align: end;
 }
-#TROCAR_O_ID_PARA_O_TOPICO article img{
-    width: 400px;
-    height: 200px;
+#TROCAR_O_ID_PARA_O_TOPICO article img {
+  width: 400px;
+  height: 200px;
 }
-#TROCAR_O_ID_PARA_O_TOPICO article div{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 600px;
-    align-items: end;
+#TROCAR_O_ID_PARA_O_TOPICO article div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  align-items: end;
 }
-#TROCAR_O_ID_PARA_O_TOPICO article div button{
-    padding: 10px 40px;
-    border-radius: 100px;
-    border: none;
-    width: fit-content;
+#TROCAR_O_ID_PARA_O_TOPICO article div button {
+  padding: 10px 40px;
+  border-radius: 100px;
+  border: none;
+  width: fit-content;
 }
-#TROCAR_O_ID_PARA_O_TOPICO article.right{
-    flex-direction: row-reverse;
-    text-align: start;
+#TROCAR_O_ID_PARA_O_TOPICO article.right {
+  flex-direction: row-reverse;
+  text-align: start;
 }
-#TROCAR_O_ID_PARA_O_TOPICO article.right div{
-    align-items: start;
+#TROCAR_O_ID_PARA_O_TOPICO article.right div {
+  align-items: start;
 }
 
 /* ================================================ 
                 Login e Cadastro
 ================================================ */
 
-#loginCadastro{
+#loginCadastro {
   display: flex;
   flex-direction: column;
   height: 100dvh;
 }
 
-#loginCadastro main{
+#loginCadastro main {
   padding: 10px;
   display: flex;
   flex-direction: row;
   gap: 10px;
   flex: 1;
-  
 }
 
 #loginCadastro .lado1 {
@@ -289,7 +287,7 @@ header button {
   background-size: cover;
 }
 
-#loginCadastro .lado1 div input{
+#loginCadastro .lado1 div input {
   width: 300px;
   outline: none;
   padding: 10px;
@@ -298,17 +296,17 @@ header button {
   box-shadow: 0 5px 5px hsla(0, 0%, 0%, 0.25);
 }
 
-#loginCadastro .lado1 img{
+#loginCadastro .lado1 img {
   width: 120px;
   height: 120px;
   border-radius: 200px;
 }
 
-#loginCadastro .lado1 h2{
+#loginCadastro .lado1 h2 {
   margin: 20px 0;
 }
 
-#loginCadastro .lado1 button{
+#loginCadastro .lado1 button {
   margin: 20px 0;
   padding: 10px 60px;
   border-radius: 100px;
@@ -319,18 +317,36 @@ header button {
                 Agradecimentos
 ================================================ */
 
-#Agradecimentos {
+#Agradecimentos header {
+  position: relative;
+}
+
+#Agradecimentos section {
+  background-color: blue;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 50px;
-  height: 100vh;
+  flex-direction: column;
+  margin: 20px;
+  padding: 20px;
 }
 
-section#Agradecimentos {
-  background-color: rgb(84, 70, 97);
-  height: 500px;
-  width: 500px;
+#Agradecimentos section div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 50%;
+  min-width: 500px;
+  gap: 20px;
 }
 
+#Agradecimentos ul{
+  list-style-type:none;
+  display: flex;
+  flex-direction: row;
+}
+
+#Agradecimntos ul li img{
+  background-color: brown;
+}
