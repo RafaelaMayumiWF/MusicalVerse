@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemplo - Quiz</title>
+    <link rel="stylesheet" href="./css/background.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./js/sessao.js"></script>
+  </head>
+
+  <body onload="onloadEsconder()">
+    <div class="fundo-animado">
+      <!-- Ondas que expandem (3 grupos em posições diferentes) -->
+      <div class="onda onda-1"></div>
+      <div class="onda onda-2"></div>
+      <div class="onda onda-3"></div>
+
+      <div class="onda onda-4"></div>
+      <div class="onda onda-5"></div>
+      <div class="onda onda-6"></div>
+
+      <div class="onda onda-7"></div>
+      <div class="onda onda-8"></div>
+
+      <!-- Losangos flutuando -->
+      <div class="losango losango-1"></div>
+      <div class="losango losango-2"></div>
+      <div class="losango losango-3"></div>
+      <div class="losango losango-4"></div>
+      <div class="losango losango-5"></div>
+
+      <!-- Linhas que cruzam a tela -->
+      <div class="linha linha-1"></div>
+      <div class="linha linha-2"></div>
+      <div class="linha linha-3"></div>
+      <div class="linha linha-4"></div>
+      <div class="linha linha-5"></div>
+
+      <!-- Luzes de fundo suaves -->
+      <div class="luz luz-1"></div>
+      <div class="luz luz-2"></div>
+      <div class="luz luz-3"></div>
+    </div>
+    <div id="pontuacaoEJogo">
+      <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR QUIZ</button>
+
+      <div id="pontuacao" class="flex-colunar width-fit-content border-primary">
+        <div id="pontuacaoDuranteJogo" class="flex-colunar padding-8">
+          <span class="width-fit-content"
+            >Acertos: <span id="spanCertas"></span
+          ></span>
+          <span class="width-fit-content"
+            >Erros: <span id="spanErradas"></span
+          ></span>
+        </div>
+        <div id="pontuacaoFinalJogo" class="flex-colunar padding-8">
+          <span id="pontuacaoFinal" class="width-fit-content"
+            >Pontuação Final:
+            <span id="spanPontuacaoFinal">***</span>
+          </span>
+          <span id="msgFinal" class="width-fit-content">***</span>
+        </div>
+      </div>
+
+      <div id="jogo" class="width-fit-content flex-colunar border-secondary">
+        <div id="infoQuestao" class="padding-8">
+          <span
+            >Questão atual: <span id="spanNumeroDaQuestaoAtual"></span> de
+            <span id="qtdQuestoes"></span> questões.</span
+          >
+        </div>
+        <section>
+          <article>
+            <div id="perguntaDaQuestaoAtual" class="padding-8">
+              <span id="spanQuestaoExibida" class="text-bold"></span>
+            </div>
+          </article>
+          <article>
+            <div id="infoAlternativas" class="padding-8">
+              <span><em>Escolha uma opção dentre as abaixo:</em></span>
+            </div>
+
+            <div id="opcoes" class="flex-colunar padding-8">
+              <span>
+                <input
+                  type="radio"
+                  id="primeiraOpcao"
+                  name="option"
+                  class="radio"
+                  value="alternativaA"
+                />
+                <label
+                  for="primeiraOpcao"
+                  class="option"
+                  id="labelOpcaoUm"
+                ></label>
+              </span>
+              <span>
+                <input
+                  type="radio"
+                  id="segundaOpcao"
+                  name="option"
+                  class="radio"
+                  value="alternativaB"
+                />
+                <label
+                  for="segundaOpcao"
+                  class="option"
+                  id="labelOpcaoDois"
+                ></label>
+              </span>
+              <span>
+                <input
+                  type="radio"
+                  id="terceiraOpcao"
+                  name="option"
+                  class="radio"
+                  value="alternativaC"
+                />
+                <label
+                  for="terceiraOpcao"
+                  class="option"
+                  id="labelOpcaoTres"
+                ></label>
+              </span>
+              <span>
+                <input
+                  type="radio"
+                  id="quartaOpcao"
+                  name="option"
+                  class="radio"
+                  value="alternativaD"
+                />
+                <label
+                  for="quartaOpcao"
+                  class="option"
+                  id="labelOpcaoQuatro"
+                ></label>
+              </span>
+            </div>
+          </article>
+        </section>
+
+        <div id="botoes" class="flex-colunar padding-8">
+          <button onclick="submeter()" id="btnSubmeter">
+            Submeter resposta
+          </button>
+          <button onclick="avancar()" id="btnProx" disabled>
+            Avançar para próxima questão
+          </button>
+          <!-- <button onclick="finalizar()" id="btnConcluir" disabled>Finalizar Quiz</button> -->
+          <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  const listaDeQuestoes = [
+    {
+      pergunta:
+        "Qual foi o principal motivo para Elphaba entrar em conflito direto com o Mágico?",
+      alternativaA: "Porque ele expulsou os animais de Oz",
+      alternativaB:
+        "Porque ele tentou usar o poder dela para manter sua autoridade",
+      alternativaC: "Porque Glinda revelou um segredo sobre ela",
+      alternativaD: "Porque Fiyero decidiu fugir com ela",
+      alternativaE: "Porque Madame Morrible queria prendê-la injustamente",
+      alternativaCorreta: "alternativaB",
+    },
+
+    {
+      pergunta:
+        "Antes de receber o apelido de “Glinda”, qual era a grafia original usada pela personagem?",
+      alternativaA: "Glynda",
+      alternativaB: "Glindaa",
+      alternativaC: "Galinda",
+      alternativaD: "Gelinda",
+      alternativaE: "Glendra",
+      alternativaCorreta: "alternativaC",
+    },
+
+    {
+      pergunta:
+        "O que simboliza, principalmente, a canção “Defying Gravity” dentro da narrativa?",
+      alternativaA: "O arrependimento de Elphaba",
+      alternativaB: "A rivalidade definitiva entre as protagonistas",
+      alternativaC: "A aceitação da autoridade do Mágico",
+      alternativaD: "A ruptura de Elphaba com o sistema de Oz",
+      alternativaE: "O romance entre Elphaba e Fiyero",
+      alternativaCorreta: "alternativaD",
+    },
+
+    {
+      pergunta:
+        "Qual desses personagens foi transformado em Espantalho ao longo da história?",
+      alternativaA: "Boq",
+      alternativaB: "Dillamond",
+      alternativaC: "Fiyero",
+      alternativaD: "Chistery",
+      alternativaE: "Frex",
+      alternativaCorreta: "alternativaC",
+    },
+
+    {
+      pergunta: "Qual era a profissão do Doutor Dillamond em Shiz",
+      alternativaA: "Diretor da universidade",
+      alternativaB: "Professor de História",
+      alternativaC: "Cientista do laboratório real",
+      alternativaD: "Professor de Biologia",
+      alternativaE: "Professor de Filosofia",
+      alternativaCorreta: "alternativaD",
+    },
+
+    {
+      pergunta:
+        "Qual objeto é essencial para que Elphaba consiga desenvolver seus poderes mágicos de forma mais avançada?",
+      alternativaA: "O Relógio de Oz",
+      alternativaB: "O Grimmerie",
+      alternativaC: "O Medalhão Esmeralda",
+      alternativaD: "A Vassoura Negra",
+      alternativaE: "O Livro dos Macacos Voadores",
+      alternativaCorreta: "alternativaB",
+    },
+
+    {
+      pergunta:
+        "Em relação à personalidade de Glinda no início da história, qual alternativa descreve melhor sua motivação principal?",
+      alternativaA: "Desejo de vingança",
+      alternativaB: "Busca por independência financeira",
+      alternativaC: "Necessidade de reconhecimento e popularidade",
+      alternativaD: "Interesse em dominar magia avançada",
+      alternativaE: "Medo constante do Mágico",
+      alternativaCorreta: "alternativaC",
+    },
+
+    {
+      pergunta:
+        "O que torna Elphaba diferente dos outros habitantes de Oz desde o nascimento?",
+      alternativaA: "Sua habilidade de falar com animais",
+      alternativaB: "Sua marca em formato de estrela",
+      alternativaC: "Seus olhos dourados",
+      alternativaD: "Sua pele verde",
+      alternativaE: "Seu domínio natural sobre fogo",
+      alternativaCorreta: "alternativaD",
+    },
+
+    {
+      pergunta:
+        "Qual personagem acaba assumindo uma posição política importante ao lado do Mágico?",
+      alternativaA: "Nessarose",
+      alternativaB: "Boq",
+      alternativaC: "Glinda",
+      alternativaD: "Fiyero",
+      alternativaE: "Madame Morrible",
+      alternativaCorreta: "alternativaC",
+    },
+
+    {
+      pergunta:
+        "Qual tema aparece de forma mais forte ao longo de Wicked?",
+      alternativaA: "Tecnologia e progresso",
+      alternativaB: "Destino versus identidade construída",
+      alternativaC: "Guerra entre reinos",
+      alternativaD: "Competição acadêmica",
+      alternativaE: "Viagem no tempo",
+      alternativaCorreta: "alternativaB",
+    },
+  ];
+
+  // variáveis globais
+  let numeroDaQuestaoAtual = 0;
+  let pontuacaoFinal = 0;
+  let tentativaIncorreta = 0;
+  let certas = 0;
+  let erradas = 0;
+  let quantidadeDeQuestoes = listaDeQuestoes.length;
+  // let isUltima = numeroDaQuestaoAtual == quantidadeDeQuestoes-1 ? true : false
+
+  function onloadEsconder() {
+    document.getElementById("pontuacao").style.display = "none";
+    document.getElementById("jogo").style.display = "none";
+  }
+
+  function iniciarQuiz() {
+    document.getElementById("pontuacao").style.display = "flex";
+    document.getElementById("jogo").style.display = "flex";
+    document.getElementById("btnIniciarQuiz").style.display = "none";
+
+    document.getElementById("qtdQuestoes").innerHTML = quantidadeDeQuestoes;
+
+    preencherHTMLcomQuestaoAtual(0);
+
+    btnSubmeter.disabled = false;
+    btnProx.disabled = true;
+    // btnConcluir.disabled = true
+    btnTentarNovamente.disabled = true;
+  }
+
+  function preencherHTMLcomQuestaoAtual(index) {
+    habilitarAlternativas(true);
+    const questaoAtual = listaDeQuestoes[index];
+    numeroDaQuestaoAtual = index;
+    console.log("questaoAtual");
+    console.log(questaoAtual);
+    document.getElementById("spanNumeroDaQuestaoAtual").innerHTML =
+      Number(index) + 1; // ajustando porque o index começa em 0
+    document.getElementById("spanQuestaoExibida").innerHTML =
+      questaoAtual.pergunta;
+    document.getElementById("labelOpcaoUm").innerHTML =
+      questaoAtual.alternativaA;
+    document.getElementById("labelOpcaoDois").innerHTML =
+      questaoAtual.alternativaB;
+    document.getElementById("labelOpcaoTres").innerHTML =
+      questaoAtual.alternativaC;
+    document.getElementById("labelOpcaoQuatro").innerHTML =
+      questaoAtual.alternativaD;
+  }
+
+  function submeter() {
+    const options = document.getElementsByName("option"); // recupera alternativas no html
+
+    let hasChecked = false;
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].checked) {
+        hasChecked = true;
+        break;
+      }
+    }
+
+    if (!hasChecked) {
+      alert("Não há alternativas escolhidas. Escolha uma opção.");
+    } else {
+      btnSubmeter.disabled = true;
+      btnProx.disabled = false;
+
+      habilitarAlternativas(false);
+
+      checarResposta();
+    }
+  }
+
+  function habilitarAlternativas(trueOrFalse) {
+    let opcaoEscolhida = trueOrFalse ? false : true;
+
+    primeiraOpcao.disabled = opcaoEscolhida;
+    segundaOpcao.disabled = opcaoEscolhida;
+    terceiraOpcao.disabled = opcaoEscolhida;
+    quartaOpcao.disabled = opcaoEscolhida;
+  }
+
+  function avancar() {
+    btnProx.disabled = true;
+    btnSubmeter.disabled = false;
+
+    desmarcarRadioButtons();
+
+    if (numeroDaQuestaoAtual < quantidadeDeQuestoes - 1) {
+      preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual);
+    } else if (numeroDaQuestaoAtual == quantidadeDeQuestoes - 1) {
+      alert("Atenção... a próxima é a ultima questão!");
+      preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual);
+    } else {
+      finalizarJogo();
+    }
+    limparCoresBackgroundOpcoes();
+  }
+
+  function tentarNovamente() {
+    // atualiza a página
+    window.location.reload();
+  }
+
+  function checarResposta() {
+    const questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual]; // questão atual
+    const respostaQuestaoAtual = questaoAtual.alternativaCorreta; // qual é a resposta correta da questão atual
+
+    const options = document.getElementsByName("option"); // recupera alternativas no html
+
+    let alternativaCorreta = null; // variável para armazenar a alternativa correta
+
+    options.forEach((option) => {
+      if (option.value === respostaQuestaoAtual) {
+        console.log(
+          "alternativaCorreta está no componente: " + alternativaCorreta,
+        );
+        alternativaCorreta = option.labels[0].id;
+      }
+    });
+
+    // verifica se resposta assinalada é correta
+    options.forEach((option) => {
+      if (option.checked === true && option.value === respostaQuestaoAtual) {
+        document
+          .getElementById(alternativaCorreta)
+          .classList.add("text-success-with-bg");
+        pontuacaoFinal++;
+        certas++;
+        document.getElementById("spanCertas").innerHTML = certas;
+        numeroDaQuestaoAtual++;
+      } else if (option.checked && option.value !== respostaQuestaoAtual) {
+        const wrongLabelId = option.labels[0].id;
+
+        document
+          .getElementById(wrongLabelId)
+          .classList.add("text-danger-with-bg");
+        document
+          .getElementById(alternativaCorreta)
+          .classList.add("text-success-with-bg");
+        tentativaIncorreta++;
+        erradas++;
+        document.getElementById("spanErradas").innerHTML = erradas;
+        numeroDaQuestaoAtual++;
+      }
+    });
+  }
+
+  function limparCoresBackgroundOpcoes() {
+    const options = document.getElementsByName("option");
+    options.forEach((option) => {
+      document
+        .getElementById(option.labels[0].id)
+        .classList.remove("text-danger-with-bg");
+      document
+        .getElementById(option.labels[0].id)
+        .classList.remove("text-success-with-bg");
+    });
+  }
+
+  function desmarcarRadioButtons() {
+    const options = document.getElementsByName("option");
+    for (let i = 0; i < options.length; i++) {
+      options[i].checked = false;
+    }
+  }
+
+  function finalizarJogo() {
+    let textoParaMensagemFinal = null;
+    let classComCoresParaMensagemFinal = null;
+    const porcentagemFinalDeAcertos = pontuacaoFinal / quantidadeDeQuestoes;
+
+    pontuacaoFinalJogo.style.display = "flex"
+
+    if (porcentagemFinalDeAcertos <= 0.3) {
+      textoParaMensagemFinal = "Parece que você não conhece muito do universo...";
+      classComCoresParaMensagemFinal = "text-danger-with-bg";
+    } else if (
+      porcentagemFinalDeAcertos > 0.3 &&
+      porcentagemFinalDeAcertos < 0.9
+    ) {
+      textoParaMensagemFinal = "Pode melhorar na próxima, hein!";
+      classComCoresParaMensagemFinal = "text-warning-with-bg";
+    } else if (porcentagemFinalDeAcertos >= 0.9) {
+      textoParaMensagemFinal = "Uau, você é um verdadeiro ozian";
+      classComCoresParaMensagemFinal = "text-success-with-bg";
+    }
+
+    textoParaMensagemFinal +=
+      "<br> Você acertou " +
+      Math.round(porcentagemFinalDeAcertos * 100) +
+      "% das questões.";
+
+    document.getElementById("msgFinal").innerHTML = textoParaMensagemFinal;
+    document
+      .getElementById("msgFinal")
+      .classList.add(classComCoresParaMensagemFinal);
+    document.getElementById("spanPontuacaoFinal").innerHTML = pontuacaoFinal;
+
+    document.getElementById("jogo").classList.add("text-new-gray");
+
+    btnProx.disabled = true;
+    btnSubmeter.disabled = true;
+    // btnConcluir.disabled = true
+    btnTentarNovamente.disabled = false;
+
+    const idUsuario = getIdUsuarioSessao();
+
+    console.log('ID_USUARIO da sessão:', idUsuario);
+
+    if (!idUsuario) {
+      console.error('ID_USUARIO inválido ou não encontrado na sessão. Usuário pode não estar logado.');
+      return;
+    }
+
+    const body = {
+      idUsuario: idUsuario,
+      pontos: pontuacaoFinal
+    };
+    console.log('Enviando body de pontos:', body);
+
+    fetch("/pontos/adicionar-pontos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          cardErro.style.display = "block";
+        } 
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        finalizarAguardar();
+      });
+
+    return false;
+  }
+  
+</script>

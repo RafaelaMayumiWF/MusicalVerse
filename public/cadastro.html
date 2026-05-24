@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="./js/sessao.js"></script>
+
+    <title>MusicalVerse - Cadastro</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/background.css" />
+  </head>
+
+  <body id="loginCadastro">
+    <div class="fundo-animado">
+
+    <!-- Ondas que expandem (3 grupos em posições diferentes) -->
+    <div class="onda onda-1"></div>
+    <div class="onda onda-2"></div>
+    <div class="onda onda-3"></div>
+
+    <div class="onda onda-4"></div>
+    <div class="onda onda-5"></div>
+    <div class="onda onda-6"></div>
+
+    <div class="onda onda-7"></div>
+    <div class="onda onda-8"></div>
+
+    <!-- Losangos flutuando -->
+    <div class="losango losango-1"></div>
+    <div class="losango losango-2"></div>
+    <div class="losango losango-3"></div>
+    <div class="losango losango-4"></div>
+    <div class="losango losango-5"></div>
+
+    <!-- Linhas que cruzam a tela -->
+    <div class="linha linha-1"></div>
+    <div class="linha linha-2"></div>
+    <div class="linha linha-3"></div>
+    <div class="linha linha-4"></div>
+    <div class="linha linha-5"></div>
+
+    <!-- Luzes de fundo suaves -->
+    <div class="luz luz-1"></div>
+    <div class="luz luz-2"></div>
+    <div class="luz luz-3"></div>
+
+  </div>
+    <main>
+        <a href="./index.html" id="inicioBtn">Inicio</a>
+
+      <section class="lado1">
+        <img src="../assets/img/avatar.png" alt="" />
+        <h2>Cadastro</h2>
+
+        <div>
+          <input type="text" placeholder="Nome" id="nome_input" />
+        </div>
+
+        <div>
+          <input type="text" placeholder="E-mail" id="email_input" />
+        </div>
+
+        <div>
+          <input type="password" placeholder="Senha" id="senha_input" />
+        </div>
+
+        <div>
+          <input type="password" placeholder="Confirmar senha" id="confirmacao_senha_input" />
+        </div>
+
+        <button onclick="cadastrar()">Cadastrar</button>
+        
+      </section>
+
+      <section class="lado2">
+                <div>
+          <h2>Já tem uma conta?</h2>
+          <p>Acesse sua conta existente! <a href="./login.html">Acessar Conta</a></p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+<script>
+
+  function cadastrar() {
+    
+    var nomeVar = nome_input.value;
+    var emailVar = email_input.value;
+    var senhaVar = senha_input.value;
+    
+
+    if (
+      nomeVar == "" ||
+      emailVar == "" ||
+      senhaVar == "" 
+    ) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML =
+        "(erro)";
+
+      finalizarAguardar();
+      return false;
+    } else {
+      setInterval(sumirMensagem, 5000);
+    }
+
+    
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nomeServer: nomeVar,
+        emailServer: emailVar,
+        senhaServer: senhaVar
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          cardErro.style.display = "block";
+
+          mensagem_erro.innerHTML =
+            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+          setTimeout(() => {
+            window.location = "login.html";
+          }, "2000");
+
+          limparFormulario();
+          finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        finalizarAguardar();
+      });
+
+    return false;
+  }
+
+  // ver isso aqui
+  function sumirMensagem() {
+    cardErro.style.display = "none";
+  }
+</script>

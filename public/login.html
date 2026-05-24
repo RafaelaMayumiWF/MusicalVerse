@@ -1,0 +1,163 @@
+<!doctype html>
+<link rel="stylesheet" href="./css/background.css" />
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="./js/sessao.js"></script>
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <title>MusicalVerse - Login</title>
+  </head>
+
+  <body id="loginCadastro">
+    <div class="fundo-animado">
+      <!-- Ondas que expandem (3 grupos em posições diferentes) -->
+      <div class="onda onda-1"></div>
+      <div class="onda onda-2"></div>
+      <div class="onda onda-3"></div>
+
+      <div class="onda onda-4"></div>
+      <div class="onda onda-5"></div>
+      <div class="onda onda-6"></div>
+
+      <div class="onda onda-7"></div>
+      <div class="onda onda-8"></div>
+
+      <!-- Losangos flutuando -->
+      <div class="losango losango-1"></div>
+      <div class="losango losango-2"></div>
+      <div class="losango losango-3"></div>
+      <div class="losango losango-4"></div>
+      <div class="losango losango-5"></div>
+
+      <!-- Linhas que cruzam a tela -->
+      <div class="linha linha-1"></div>
+      <div class="linha linha-2"></div>
+      <div class="linha linha-3"></div>
+      <div class="linha linha-4"></div>
+      <div class="linha linha-5"></div>
+
+      <!-- Luzes de fundo suaves -->
+      <div class="luz luz-1"></div>
+      <div class="luz luz-2"></div>
+      <div class="luz luz-3"></div>
+    </div>
+    <main>
+      <a href="./index.html" id="inicioBtn">Inicio</a>
+
+      <section class="lado1">
+        <img src="../assets/img/avatar.png" alt="" />
+        <h2>Login</h2>
+
+        <div>
+          <input type="text" placeholder="E-mail" id="email_input" />
+        </div>
+
+        <div>
+          <input type="text" placeholder="Senha" id="senha_input" />
+        </div>
+
+        <button onclick="entrar()">Entrar</button>
+        <div
+          id="div_aguardar"
+          style="display: none; margin-top: 1rem; color: #333"
+        >
+          Aguarde...
+        </div>
+        <div
+          id="div_erros_login"
+          style="display: none; margin-top: 1rem; color: red"
+        ></div>
+      </section>
+
+      <section class="lado2">
+        <div>
+          <h2>Ainda não tem conta?</h2>
+          <p>Crie uma agora! <a href="./cadastro.html">Criar Conta</a></p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      function entrar() {
+        aguardar();
+
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+        var divErrosLogin = document.getElementById("div_erros_login");
+
+        if (emailVar == "" || senhaVar == "") {
+          divErrosLogin.style.display = "block";
+          divErrosLogin.innerHTML =
+            "(Mensagem de erro para todos os campos em branco)";
+          finalizarAguardar();
+          return false;
+        } else {
+          setInterval(sumirMensagem, 5000);
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            emailServer: emailVar,
+            senhaServer: senhaVar,
+          }),
+        })
+          .then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!");
+
+            if (resposta.ok) {
+              console.log(resposta);
+
+              resposta.json().then((json) => {
+                console.log('Login resposta JSON:', json);
+                var usuarioId = json.id || json.id_usuario;
+                if (!usuarioId || usuarioId === 'undefined' || usuarioId === 'null') {
+                  console.error('Login retornou ID inválido:', usuarioId, json);
+                  return;
+                }
+
+                salvarSessaoUsuario({
+                  email: json.email,
+                  nome: json.nome,
+                  id: usuarioId,
+                });
+
+                setTimeout(function () {
+                  window.location = "index.html";
+                }, 1000); // apenas para exibir o loading
+              });
+            } else {
+              console.log("Houve um erro ao tentar realizar o login!");
+
+              resposta.text().then((texto) => {
+                console.error(texto);
+                finalizarAguardar(texto);
+              });
+            }
+          })
+          .catch(function (erro) {
+            console.log(erro);
+          });
+
+        return false;
+      }
+
+      function sumirMensagem() {
+        var divErrosLogin = document.getElementById("div_erros_login");
+        if (divErrosLogin) {
+          divErrosLogin.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>

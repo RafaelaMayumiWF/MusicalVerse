@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/background.css" />
+
+    <title>MusicalVerse - Lab</title>
+  </head>
+  <body id="lab">
+    <div class="fundo-animado">
+      <!-- Ondas que expandem (3 grupos em posições diferentes) -->
+      <div class="onda onda-1"></div>
+      <div class="onda onda-2"></div>
+      <div class="onda onda-3"></div>
+
+      <div class="onda onda-4"></div>
+      <div class="onda onda-5"></div>
+      <div class="onda onda-6"></div>
+
+      <div class="onda onda-7"></div>
+      <div class="onda onda-8"></div>
+
+      <!-- Losangos flutuando -->
+      <div class="losango losango-1"></div>
+      <div class="losango losango-2"></div>
+      <div class="losango losango-3"></div>
+      <div class="losango losango-4"></div>
+      <div class="losango losango-5"></div>
+
+      <!-- Linhas que cruzam a tela -->
+      <div class="linha linha-1"></div>
+      <div class="linha linha-2"></div>
+      <div class="linha linha-3"></div>
+      <div class="linha linha-4"></div>
+      <div class="linha linha-5"></div>
+
+      <!-- Luzes de fundo suaves -->
+      <div class="luz luz-1"></div>
+      <div class="luz luz-2"></div>
+      <div class="luz luz-3"></div>
+    </div>
+    <header>
+      <img src="" alt="" />
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./sobre_mim.html">Sobre Mim</a>
+        <a href="#" class="active">Lab</a>
+        <a href="./agradecimentos.html">Agradecimentos</a>
+      </nav>
+      <a href="./login.html" id="loginBtn">Login</a>
+    </header>
+    <main>
+      <section>
+        <h2>Bem-Vindo ao Laboratório</h2>
+        <p>
+          Aqui você vai poder praticar seus conhecimentos sobre os musicais,
+          enquanto se diverte e explora esse mundo.
+        </p>
+      </section>
+      <section>
+        <ul>
+          <li>
+            <h3>Wicked</h3>
+            <p>Venha testar seus conhecimentos sobre o musical</p>
+            <article>
+              <img src="" alt="" />
+              <div>
+                <h4></h4>
+                <a href="./quizzWicked.html">
+                  <button>Jogue Agora</button>
+                </a>
+              </div>
+            </article>
+          </li>
+          <li>
+            <h3>Hamilton</h3>
+            <p>Venha testar seus conhecimentos sobre o musical</p>
+            <article>
+              <img src="" alt="" />
+              <div>
+                <h4></h4>
+                <a href="./quizzHamilton.html">
+                  <button>Jogue Agora</button>
+                </a>
+              </div>
+            </article>
+          </li>
+          <li>
+            <h3>Epic</h3>
+            <p>Venha testar seus conhecimentos sobre o musical</p>
+            <article>
+              <img src="" alt="" />
+              <div>
+                <h4></h4>
+                <a href="./quizzEpic.html">
+                  <button>Jogue Agora</button>
+                </a>
+              </div>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Deixe seu comentário</h2>
+        <input id="inputTitulo" placeholder="Título do comentário" />
+
+        <textarea
+          id="textareaComentario"
+          placeholder="Escreva seu comentário..."
+        ></textarea>
+
+        <button onclick="comentar()">Comentar</button>
+
+        <div id="mensagemComentario"></div>
+      </section>
+
+      <section>
+        <button onclick="responder()">Responder</button>
+      </section>
+
+      <section>
+        <h1>Avaliação</h1>
+        <select id="selectNota">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+
+        <button onclick="avaliar()">Avaliar</button>
+      </section>
+    </main>
+  </body>
+</html>
+
+<script>
+  function comentar() {
+    var titulo = inputTitulo.value;
+
+    var conteudo = textareaComentario.value;
+
+    var idUsuario = sessionStorage.ID_USUARIO;
+
+    fetch("/comentarios/cadastrar", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        tituloServer: titulo,
+
+        conteudoServer: conteudo,
+
+        comentarioPaiServer: null,
+
+        idUsuarioServer: idUsuario,
+      }),
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          document.getElementById("mensagemComentario").innerHTML =
+            "<p style='color: green;'>✓ Comentário enviado com sucesso!</p>";
+          inputTitulo.value = "";
+          textareaComentario.value = "";
+        } else {
+          throw new Error("Erro ao enviar");
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+        document.getElementById("mensagemComentario").innerHTML =
+          "<p style='color: red;'>✗ Erro ao enviar comentário</p>";
+      });
+  }
+
+  function responder(idComentario) {
+    var resposta = prompt("Digite resposta");
+
+    if (!resposta) return;
+
+    fetch("/comentarios/cadastrar", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        tituloServer: "Resposta",
+
+        conteudoServer: resposta,
+
+        comentarioPaiServer: idComentario,
+
+        idUsuarioServer: sessionStorage.ID_USUARIO,
+      }),
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          alert("✓ Resposta enviada!");
+        } else {
+          throw new Error("Erro ao enviar");
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+        alert("✗ Erro ao enviar resposta");
+      });
+  }
+
+  function avaliar() {
+    var nota = selectNota.value;
+
+    var idUsuario = sessionStorage.ID_USUARIO;
+
+    var idMusical = 1;
+
+    // Validar se usuário está logado
+    if (!idUsuario) {
+      alert("✗ Você precisa estar logado para avaliar");
+      return;
+    }
+
+    fetch("/avaliacoes/cadastrar", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        notaServer: nota,
+
+        idUsuarioServer: idUsuario,
+
+        idMusicalServer: idMusical,
+      }),
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          alert("✓ Avaliação enviada com sucesso!");
+          selectNota.value = "1";
+        } else {
+          return resposta.json().then(err => {
+            throw new Error(err.erro || "Erro ao enviar avaliação");
+          });
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+        alert("✗ " + erro.message);
+      });
+  }
+</script>

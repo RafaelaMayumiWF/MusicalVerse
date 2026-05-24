@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Simples</title>
+</head>
+<body>
+    <h1>Dashboard de KPI simples</h1>
+    <p>Este exemplo usa a API do projeto para mostrar um dashboard básico.</p>
+    <div id="mensagem"></div>
+
+    <h2>Indicadores</h2>
+    <div id="indicadores"></div>
+
+    <h2>Detalhes por aquário</h2>
+    <div id="lista-aquarios"></div>
+
+    <script>
+        function validarSessao() {
+            if (!sessionStorage.EMAIL_USUARIO || !sessionStorage.NOME_USUARIO || !sessionStorage.ID_USUARIO) {
+                document.getElementById('mensagem').innerText = 'Faça login antes de usar este dashboard.';
+                return false;
+            }
+            return true;
+        }
+
+        function statusTemperatura(temp) {
+            if (temp === null || temp === undefined) {
+                return 'Sem dados';
+            }
+            if (temp >= 23) return 'Perigo quente';
+            if (temp >= 22) return 'Alerta quente';
+            if (temp > 10) return 'Ideal';
+            if (temp > 5) return 'Alerta frio';
+            return 'Perigo frio';
+        }
+
+        async function obterAquariosDoUsuario() {
+            const idUsuario = sessionStorage.ID_USUARIO;
+            const resposta = await fetch(`/aquarios/${idUsuario}`);
+            if (!resposta.ok) {
+                throw new Error('Erro ao buscar aquários: ' + resposta.status);
+            }
+            return resposta.json();
+        }
+
+        async function obterMedidaAtual(idAquario) {
+            const resposta = await fetch(`/medidas/tempo-real/${idAquario}`, { cache: 'no-store' });
+            if (!resposta.ok) {
+                return null;
+            }
+            const dados = await resposta.json();
+            return dados[0] || null;
+        }
+
+        async function carregarDashboard() {
+            if (!validarSessao()) {
+                return;
+            }
+
+            document.getElementById('mensagem').innerText = 'Carregando dados...';
+
+            try {
+                const aquarios = await obterAquariosDoUsuario();
+                if (!aquarios || aquarios.length === 0) {
+                    document.getElementById('mensagem').innerText = 'Nenhum aquário encontrado para o usuário.';
+                    return;
+                }
+
+                const dados = await Promise.all(aquarios.map(async aquario => {
+                    const medida = await obterMedidaAtual(aquario.id);
+                    return { aquario, medida };
+                }));
+
+                document.getElementById('mensagem').innerText = '';
+
+                const temperaturas = dados
+                    .map(item => item.medida && item.medida.temperatura)
+                    .filter(temp => temp !== undefined && temp !== null);
+
+                const mediaTemperatura = temperaturas.length > 0
+                    ? temperaturas.reduce((soma, temp) => soma + temp, 0) / temperaturas.length
+                    : null;
+
+                const qtdAlerta = dados.filter(item => {
+                    const status = statusTemperatura(item.medida && item.medida.temperatura);
+                    return status !== 'Ideal' && status !== 'Sem dados';
+                }).length;
+
+                const indicadoresHtml = `
+                    <p><strong>Total de aquários:</strong> ${dados.length}</p>
+                    <p><strong>Temperatura média:</strong> ${mediaTemperatura !== null ? mediaTemperatura.toFixed(1) + '°C' : 'Sem dados'}</p>
+                    <p><strong>Aquários em alerta/perigo:</strong> ${qtdAlerta}</p>
+                `;
+                document.getElementById('indicadores').innerHTML = indicadoresHtml;
+
+                const lista = dados.map(item => {
+                    const temp = item.medida ? item.medida.temperatura + '°C' : 'Sem dados';
+                    const momento = item.medida ? item.medida.momento_grafico || item.medida.momento : '-';
+                    const status = statusTemperatura(item.medida && item.medida.temperatura);
+                    return `
+                        <div>
+                            <h3>${item.aquario.descricao}</h3>
+                            <p>Temperatura atual: ${temp}</p>
+                            <p>Status: ${status}</p>
+                            <p>Leitura: ${momento}</p>
+                        </div>
+                        <hr>
+                    `;
+                }).join('');
+
+                document.getElementById('lista-aquarios').innerHTML = lista;
+            } catch (erro) {
+                document.getElementById('mensagem').innerText = 'Erro ao carregar dashboard: ' + erro.message;
+                console.error(erro);
+            }
+        }
+
+        carregarDashboard();
+    </script>
+</body>
+</html>
