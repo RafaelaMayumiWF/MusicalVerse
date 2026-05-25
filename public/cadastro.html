@@ -58,15 +58,19 @@
         </div>
 
         <div>
-          <input type="text" placeholder="E-mail" id="email_input" />
+          <input type="text" placeholder="E-mail" id="email_input"onkeyup="validarEmail()" />
+
+          <p id="mensagemEmail"></p>
         </div>
 
         <div>
-          <input type="password" placeholder="Senha" id="senha_input" />
+          <input type="password" placeholder="Senha" id="senha_input"onkeyup="validarSenha()"/>
         </div>
 
         <div>
-          <input type="password" placeholder="Confirmar senha" id="confirmacao_senha_input" />
+          <input type="password" placeholder="Confirmar senha" id="confirmacao_senha_input"onkeyup="validarConfirmacao()"/>
+
+          <p id="mensagemConfirmacao"></p>
         </div>
 
         <button onclick="cadastrar()">Cadastrar</button>
@@ -84,6 +88,170 @@
 </html>
 
 <script>
+
+  function validarEmail(){
+
+    var email = email_input.value;
+
+    var valido =
+    email.includes("@")
+    &&
+    email.includes(".");
+
+    if(valido){
+
+        mensagemEmail.innerHTML =
+        "✔ Email válido";
+
+        mensagemEmail.style.color =
+        "lime";
+
+    }
+
+    else {
+
+        mensagemEmail.innerHTML =
+        "Email inválido";
+
+        mensagemEmail.style.color =
+        "red";
+
+    }
+
+}
+
+function validarSenha(){
+
+    var senha = senha_input.value;
+
+    var temMaiuscula = false;
+    var temMinuscula = false;
+    var temNumero = false;
+    var temEspecial = false;
+
+    var especiais =
+    "!@#$%¨&*()_+-=<>?";
+
+    for(var i = 0; i < senha.length; i++){
+
+        var caractere = senha[i];
+
+       
+
+        if(
+            caractere >= "A"
+            &&
+            caractere <= "Z"
+        ){
+
+            temMaiuscula = true;
+
+        }
+
+        
+
+        if(
+            caractere >= "a"
+            &&
+            caractere <= "z"
+        ){
+
+            temMinuscula = true;
+
+        }
+
+        
+
+        if(
+            caractere >= "0"
+            &&
+            caractere <= "9"
+        ){
+
+            temNumero = true;
+
+        }
+
+      
+
+        if(
+            especiais.includes(caractere)
+        ){
+
+            temEspecial = true;
+
+        }
+
+    }
+
+    var temTamanho =
+    senha.length >= 8;
+
+    atualizarMensagem(maiuscula, temMaiuscula);
+
+    atualizarMensagem(minuscula, temMinuscula);
+
+    atualizarMensagem(numero, temNumero);
+
+    atualizarMensagem(especial, temEspecial);
+
+    atualizarMensagem(tamanho, temTamanho);
+
+}
+
+function atualizarMensagem(elemento, valido){
+
+    var texto =
+    elemento.innerHTML.slice(2);
+
+    if(valido){
+
+        elemento.innerHTML =
+        "✔ " + texto;
+
+        elemento.style.color =
+        "lime";
+
+    }
+
+    else {
+
+        elemento.innerHTML =
+        "X " + texto;
+
+        elemento.style.color =
+        "red";
+
+    }
+
+}
+
+function validarConfirmacao(){
+
+    if(
+        senha_input.value ==
+        confirmacao_senha_input.value
+    ){
+
+        mensagemConfirmacao.innerHTML =
+        "✔ Senhas iguais";
+
+        mensagemConfirmacao.style.color =
+        "lime";
+
+    }
+
+    else {
+
+        mensagemConfirmacao.innerHTML =
+        "❌ Senhas diferentes";
+
+        mensagemConfirmacao.style.color =
+        "red";
+
+    }
+
+}
 
   function cadastrar() {
     
