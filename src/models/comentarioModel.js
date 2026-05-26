@@ -30,8 +30,37 @@ function cadastrar(
     return database.executarComParametros(instrucao, valores);
 }
 
+function listar() {
+    var instrucao = `
+        SELECT
+            c.id_comentario,
+            c.titulo,
+            c.conteudo,
+            c.comentario_id_comentario AS comentarioPai,
+            c.usuario_id_usuario AS idUsuario,
+            u.nome AS nomeUsuario
+        FROM comentario c
+        LEFT JOIN usuario u ON u.id_usuario = c.usuario_id_usuario
+        ORDER BY c.comentario_id_comentario ASC, c.id_comentario ASC;
+    `;
+
+    return database.executar(instrucao);
+}
+
+function contarPorUsuario(idUsuario) {
+    var instrucao = `
+        SELECT COUNT(*) AS totalComentarios
+        FROM comentario
+        WHERE usuario_id_usuario = ?;
+    `;
+
+    return database.executarComParametros(instrucao, [idUsuario]);
+}
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    listar,
+    contarPorUsuario
 }
 
 // SELECT

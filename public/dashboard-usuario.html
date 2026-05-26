@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/background.css" />
+
+    <title>Dashboard do Usuário | MusicalVerse</title>
+  </head>
+
+  <body id="dashs">
+    <div class="fundo-animado">
+      <div class="onda onda-1"></div>
+      <div class="onda onda-2"></div>
+      <div class="onda onda-3"></div>
+
+      <div class="onda onda-4"></div>
+      <div class="onda onda-5"></div>
+      <div class="onda onda-6"></div>
+
+      <div class="onda onda-7"></div>
+      <div class="onda onda-8"></div>
+
+      <div class="losango losango-1"></div>
+      <div class="losango losango-2"></div>
+      <div class="losango losango-3"></div>
+      <div class="losango losango-4"></div>
+      <div class="losango losango-5"></div>
+
+      <div class="linha linha-1"></div>
+      <div class="linha linha-2"></div>
+      <div class="linha linha-3"></div>
+      <div class="linha linha-4"></div>
+      <div class="linha linha-5"></div>
+
+      <div class="luz luz-1"></div>
+      <div class="luz luz-2"></div>
+      <div class="luz luz-3"></div>
+    </div>
+    <header>
+      <img src="" alt="" />
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./sobre_mim.html">Sobre Mim</a>
+        <a href="./lab.html">Lab</a>
+        <a href="./agradecimentos.html">Agradecimentos</a>
+      </nav>
+            <div id="authButtons">
+        <a href="./login.html" id="loginBtn">Login</a>
+      </div>
+    </header>
+    <main>
+      <section>
+        <article>
+          <h1>Dashboard do Usuário</h1>
+          <p class="mensagem-login">
+            Veja seu desempenho e acompanhe seus pontos e comentários.
+          </p>
+        </article>
+      </section>
+      <section class="usuario-summary">
+        <div class="usuario-card">
+          <p id="totalComentarios">0</p>
+          <h2>Comentários enviados</h2>
+        </div>
+        <div class="usuario-card">
+          <p id="totalPontos">0</p>
+          <h2>Pontos de quiz</h2>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      var usuarioId = sessionStorage.ID_USUARIO;
+
+      if (!usuarioId) {
+        document.querySelector("main").innerHTML =
+          '<p style="color: #f44336; padding: 30px;">Você precisa estar logado para ver o dashboard do usuário.</p>';
+      } else {
+        carregarDashboardUsuario(usuarioId);
+      }
+
+      function carregarDashboardUsuario(idUsuario) {
+        Promise.all([
+          fetch(`/comentarios/total-usuario/${idUsuario}`),
+          fetch(`/pontos/usuario/${idUsuario}`),
+        ])
+          .then(function (responses) {
+            return Promise.all(
+              responses.map(function (res) {
+                if (!res.ok) throw new Error("Erro ao carregar dados");
+                return res.json();
+              }),
+            );
+          })
+          .then(function (dados) {
+            var comentarios = dados[0];
+            var pontos = dados[1];
+
+            document.getElementById("totalComentarios").innerText =
+              comentarios.totalComentarios || 0;
+            document.getElementById("totalPontos").innerText =
+              pontos.pontosUsuario || 0;
+          })
+          .catch(function (erro) {
+            console.error(erro);
+            document.getElementById("totalComentarios").innerText = "---";
+            document.getElementById("totalPontos").innerText = "---";
+          });
+      }
+
+      function limparSessao() {
+        sessionStorage.clear();
+        window.location = "/login.html";
+      }
+    </script>
+    <script src="./js/authButtons.js"></script>
+  </body>
+</html>

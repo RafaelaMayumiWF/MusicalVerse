@@ -6,6 +6,10 @@ router.get('/total-pontos', function(req, res) {
   pontosController.buscarTotalPontos(req, res);
 });
 
+router.get('/usuario/:id', function(req, res) {
+  pontosController.buscarPontosUsuario(req, res);
+});
+
 router.post('/adicionar-pontos', function(req, res) {
   pontosController.adicionarPontos(req, res);
 });

@@ -7,47 +7,45 @@
     <script src="./js/sessao.js"></script>
 
     <title>MusicalVerse - Cadastro</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/background.css" />
   </head>
 
   <body id="loginCadastro">
     <div class="fundo-animado">
+      <!-- Ondas que expandem (3 grupos em posições diferentes) -->
+      <div class="onda onda-1"></div>
+      <div class="onda onda-2"></div>
+      <div class="onda onda-3"></div>
 
-    <!-- Ondas que expandem (3 grupos em posições diferentes) -->
-    <div class="onda onda-1"></div>
-    <div class="onda onda-2"></div>
-    <div class="onda onda-3"></div>
+      <div class="onda onda-4"></div>
+      <div class="onda onda-5"></div>
+      <div class="onda onda-6"></div>
 
-    <div class="onda onda-4"></div>
-    <div class="onda onda-5"></div>
-    <div class="onda onda-6"></div>
+      <div class="onda onda-7"></div>
+      <div class="onda onda-8"></div>
 
-    <div class="onda onda-7"></div>
-    <div class="onda onda-8"></div>
+      <!-- Losangos flutuando -->
+      <div class="losango losango-1"></div>
+      <div class="losango losango-2"></div>
+      <div class="losango losango-3"></div>
+      <div class="losango losango-4"></div>
+      <div class="losango losango-5"></div>
 
-    <!-- Losangos flutuando -->
-    <div class="losango losango-1"></div>
-    <div class="losango losango-2"></div>
-    <div class="losango losango-3"></div>
-    <div class="losango losango-4"></div>
-    <div class="losango losango-5"></div>
+      <!-- Linhas que cruzam a tela -->
+      <div class="linha linha-1"></div>
+      <div class="linha linha-2"></div>
+      <div class="linha linha-3"></div>
+      <div class="linha linha-4"></div>
+      <div class="linha linha-5"></div>
 
-    <!-- Linhas que cruzam a tela -->
-    <div class="linha linha-1"></div>
-    <div class="linha linha-2"></div>
-    <div class="linha linha-3"></div>
-    <div class="linha linha-4"></div>
-    <div class="linha linha-5"></div>
-
-    <!-- Luzes de fundo suaves -->
-    <div class="luz luz-1"></div>
-    <div class="luz luz-2"></div>
-    <div class="luz luz-3"></div>
-
-  </div>
+      <!-- Luzes de fundo suaves -->
+      <div class="luz luz-1"></div>
+      <div class="luz luz-2"></div>
+      <div class="luz luz-3"></div>
+    </div>
     <main>
-        <a href="./index.html" id="inicioBtn">Inicio</a>
+      <a href="./index.html" id="inicioBtn">Inicio</a>
 
       <section class="lado1">
         <img src="../assets/img/avatar.png" alt="" />
@@ -58,29 +56,45 @@
         </div>
 
         <div>
-          <input type="text" placeholder="E-mail" id="email_input"onkeyup="validarEmail()" />
+          <input
+            type="email"
+            placeholder="E-mail"
+            id="email_input"
+            onkeyup="validarEmail()"
+          />
 
           <p id="mensagemEmail"></p>
         </div>
 
         <div>
-          <input type="password" placeholder="Senha" id="senha_input"onkeyup="validarSenha()"/>
+          <input
+            type="password"
+            placeholder="Senha"
+            id="senha_input"
+            onkeyup="validarSenha()"
+          />
         </div>
 
         <div>
-          <input type="password" placeholder="Confirmar senha" id="confirmacao_senha_input"onkeyup="validarConfirmacao()"/>
+          <input
+            type="password"
+            placeholder="Confirmar senha"
+            id="confirmacao_senha_input"
+            onkeyup="validarConfirmacao()"
+          />
 
           <p id="mensagemConfirmacao"></p>
         </div>
 
         <button onclick="cadastrar()">Cadastrar</button>
-        
       </section>
 
       <section class="lado2">
-                <div>
+        <div>
           <h2>Já tem uma conta?</h2>
-          <p>Acesse sua conta existente! <a href="./login.html">Acessar Conta</a></p>
+          <p>
+            Acesse sua conta existente! <a href="./login.html">Acessar Conta</a>
+          </p>
         </div>
       </section>
     </main>
@@ -88,40 +102,23 @@
 </html>
 
 <script>
-
-  function validarEmail(){
-
+  function validarEmail() {
     var email = email_input.value;
 
-    var valido =
-    email.includes("@")
-    &&
-    email.includes(".");
+    var valido = email.includes("@") && email.includes(".");
 
-    if(valido){
+    if (valido) {
+      mensagemEmail.innerHTML = "✔ Email válido";
 
-        mensagemEmail.innerHTML =
-        "✔ Email válido";
+      mensagemEmail.style.color = "lime";
+    } else {
+      mensagemEmail.innerHTML = "Email inválido";
 
-        mensagemEmail.style.color =
-        "lime";
-
+      mensagemEmail.style.color = "red";
     }
+  }
 
-    else {
-
-        mensagemEmail.innerHTML =
-        "Email inválido";
-
-        mensagemEmail.style.color =
-        "red";
-
-    }
-
-}
-
-function validarSenha(){
-
+  function validarSenha() {
     var senha = senha_input.value;
 
     var temMaiuscula = false;
@@ -129,63 +126,29 @@ function validarSenha(){
     var temNumero = false;
     var temEspecial = false;
 
-    var especiais =
-    "!@#$%¨&*()_+-=<>?";
+    var especiais = "!@#$%¨&*()_+-=<>?";
 
-    for(var i = 0; i < senha.length; i++){
+    for (var i = 0; i < senha.length; i++) {
+      var caractere = senha[i];
 
-        var caractere = senha[i];
+      if (caractere >= "A" && caractere <= "Z") {
+        temMaiuscula = true;
+      }
 
-       
+      if (caractere >= "a" && caractere <= "z") {
+        temMinuscula = true;
+      }
 
-        if(
-            caractere >= "A"
-            &&
-            caractere <= "Z"
-        ){
+      if (caractere >= "0" && caractere <= "9") {
+        temNumero = true;
+      }
 
-            temMaiuscula = true;
-
-        }
-
-        
-
-        if(
-            caractere >= "a"
-            &&
-            caractere <= "z"
-        ){
-
-            temMinuscula = true;
-
-        }
-
-        
-
-        if(
-            caractere >= "0"
-            &&
-            caractere <= "9"
-        ){
-
-            temNumero = true;
-
-        }
-
-      
-
-        if(
-            especiais.includes(caractere)
-        ){
-
-            temEspecial = true;
-
-        }
-
+      if (especiais.includes(caractere)) {
+        temEspecial = true;
+      }
     }
 
-    var temTamanho =
-    senha.length >= 8;
+    var temTamanho = senha.length >= 8;
 
     atualizarMensagem(maiuscula, temMaiuscula);
 
@@ -196,78 +159,42 @@ function validarSenha(){
     atualizarMensagem(especial, temEspecial);
 
     atualizarMensagem(tamanho, temTamanho);
+  }
 
-}
+  function atualizarMensagem(elemento, valido) {
+    var texto = elemento.innerHTML.slice(2);
 
-function atualizarMensagem(elemento, valido){
+    if (valido) {
+      elemento.innerHTML = "✔ " + texto;
 
-    var texto =
-    elemento.innerHTML.slice(2);
+      elemento.style.color = "lime";
+    } else {
+      elemento.innerHTML = "X " + texto;
 
-    if(valido){
-
-        elemento.innerHTML =
-        "✔ " + texto;
-
-        elemento.style.color =
-        "lime";
-
+      elemento.style.color = "red";
     }
+  }
 
-    else {
+  function validarConfirmacao() {
+    if (senha_input.value == confirmacao_senha_input.value) {
+      mensagemConfirmacao.innerHTML = "✔ Senhas iguais";
 
-        elemento.innerHTML =
-        "X " + texto;
+      mensagemConfirmacao.style.color = "lime";
+    } else {
+      mensagemConfirmacao.innerHTML = "❌ Senhas diferentes";
 
-        elemento.style.color =
-        "red";
-
+      mensagemConfirmacao.style.color = "red";
     }
-
-}
-
-function validarConfirmacao(){
-
-    if(
-        senha_input.value ==
-        confirmacao_senha_input.value
-    ){
-
-        mensagemConfirmacao.innerHTML =
-        "✔ Senhas iguais";
-
-        mensagemConfirmacao.style.color =
-        "lime";
-
-    }
-
-    else {
-
-        mensagemConfirmacao.innerHTML =
-        "❌ Senhas diferentes";
-
-        mensagemConfirmacao.style.color =
-        "red";
-
-    }
-
-}
+  }
 
   function cadastrar() {
-    
     var nomeVar = nome_input.value;
     var emailVar = email_input.value;
     var senhaVar = senha_input.value;
-    
 
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" 
-    ) {
+    if (nomeVar == "" || emailVar == "" || senhaVar == "") {
       cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(erro)";
+      mensagem_erro.innerHTML = "(erro)";
 
       finalizarAguardar();
       return false;
@@ -275,7 +202,6 @@ function validarConfirmacao(){
       setInterval(sumirMensagem, 5000);
     }
 
-    
     fetch("/usuarios/cadastrar", {
       method: "POST",
       headers: {
@@ -284,7 +210,7 @@ function validarConfirmacao(){
       body: JSON.stringify({
         nomeServer: nomeVar,
         emailServer: emailVar,
-        senhaServer: senhaVar
+        senhaServer: senhaVar,
       }),
     })
       .then(function (resposta) {

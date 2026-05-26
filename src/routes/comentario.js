@@ -11,4 +11,16 @@ router.post("/cadastrar", function(req, res){
 
 });
 
+router.get("/listar", function(req, res){
+
+    comentarioController.listar(req, res);
+
+});
+
+router.get("/total-usuario/:id", function(req, res){
+
+    comentarioController.totalPorUsuario(req, res);
+
+});
+
 module.exports = router;

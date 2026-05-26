@@ -14,6 +14,16 @@ function buscarTotalPontos() {
   return database.executar(instrucaoSql);
 }
 
+function buscarPontosUsuario(idUsuario) {
+  var instrucaoSql = `
+    SELECT pontos AS pontosUsuario
+    FROM usuario
+    WHERE id_usuario = ?;
+  `;
+
+  return database.executarComParametros(instrucaoSql, [idUsuario]);
+}
+
 function adicionarPontos(idUsuario, pontos) {
 
   var instrucaoSql = `
@@ -31,5 +41,6 @@ function adicionarPontos(idUsuario, pontos) {
 
 module.exports = {
   buscarTotalPontos,
+  buscarPontosUsuario,
   adicionarPontos
 }

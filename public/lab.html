@@ -10,7 +10,6 @@
   </head>
   <body id="lab">
     <div class="fundo-animado">
-      <!-- Ondas que expandem (3 grupos em posições diferentes) -->
       <div class="onda onda-1"></div>
       <div class="onda onda-2"></div>
       <div class="onda onda-3"></div>
@@ -22,21 +21,18 @@
       <div class="onda onda-7"></div>
       <div class="onda onda-8"></div>
 
-      <!-- Losangos flutuando -->
       <div class="losango losango-1"></div>
       <div class="losango losango-2"></div>
       <div class="losango losango-3"></div>
       <div class="losango losango-4"></div>
       <div class="losango losango-5"></div>
 
-      <!-- Linhas que cruzam a tela -->
       <div class="linha linha-1"></div>
       <div class="linha linha-2"></div>
       <div class="linha linha-3"></div>
       <div class="linha linha-4"></div>
       <div class="linha linha-5"></div>
 
-      <!-- Luzes de fundo suaves -->
       <div class="luz luz-1"></div>
       <div class="luz luz-2"></div>
       <div class="luz luz-3"></div>
@@ -49,7 +45,9 @@
         <a href="#" class="active">Lab</a>
         <a href="./agradecimentos.html">Agradecimentos</a>
       </nav>
-      <a href="./login.html" id="loginBtn">Login</a>
+      <div id="authButtons">
+        <a href="./login.html" id="loginBtn">Login</a>
+      </div>
     </header>
     <main>
       <section>
@@ -65,60 +63,62 @@
             <h3>Wicked</h3>
             <p>Venha testar seus conhecimentos sobre o musical</p>
             <article>
-              <img src="" alt="" />
-              <div>
-                <h4></h4>
-                <a href="./quizzWicked.html">
-                  <button>Jogue Agora</button>
-                </a>
-              </div>
+              <a href="./quizzWicked.html">
+                <img src="" alt="" />
+                <div>
+                  <h4>jogar</h4>
+                  <p>ganhe pontos nos quiz</p>
+                </div>
+              </a>
             </article>
           </li>
           <li>
             <h3>Hamilton</h3>
             <p>Venha testar seus conhecimentos sobre o musical</p>
             <article>
-              <img src="" alt="" />
-              <div>
-                <h4></h4>
-                <a href="./quizzHamilton.html">
-                  <button>Jogue Agora</button>
-                </a>
-              </div>
+              <a href="./quizzHamilton.html">
+                <img src="" alt="" />
+                <div>
+                  <h4>jogar</h4>
+                  <p>ganhe pontos nos quiz</p>
+                </div>
+              </a>
             </article>
           </li>
           <li>
             <h3>Epic</h3>
             <p>Venha testar seus conhecimentos sobre o musical</p>
             <article>
-              <img src="" alt="" />
-              <div>
-                <h4></h4>
-                <a href="./quizzEpic.html">
-                  <button>Jogue Agora</button>
-                </a>
-              </div>
+              <a href="./quizzEpic.html">
+                <img src="" alt="" />
+                <div>
+                  <h4>jogar</h4>
+                  <p>ganhe pontos nos quiz</p>
+                </div>
+              </a>
             </article>
           </li>
         </ul>
       </section>
 
-      <section>
-        <h2>Deixe seu comentário</h2>
-        <input id="inputTitulo" placeholder="Título do comentário" />
-
-        <textarea
-          id="textareaComentario"
-          placeholder="Escreva seu comentário..."
-        ></textarea>
-
-        <button onclick="comentar()">Comentar</button>
+      <section id="comentarioSec">
+        <article>
+          <h2>Deixe seu comentário</h2>
+          <div>
+            <label for="">Me de um titulo magico</label>
+            <input id="inputTitulo" placeholder="Título do comentário" />
+          </div>
+          <div>
+            <label for="">Diga a todos que...</label>
+            <textarea
+              id="textareaComentario"
+              placeholder="Comentário..."
+            ></textarea>
+          </div>
+          <button onclick="comentar()">Comentar</button>
+        </article>
 
         <div id="mensagemComentario"></div>
-      </section>
-
-      <section>
-        <button onclick="responder()">Responder</button>
       </section>
 
       <section>
@@ -134,127 +134,7 @@
         <button onclick="avaliar()">Avaliar</button>
       </section>
     </main>
+    <script src="./js/authButtons.js"></script>
+    <script src="./js/lab.js"></script>
   </body>
 </html>
-
-<script>
-  function comentar() {
-    var titulo = inputTitulo.value;
-
-    var conteudo = textareaComentario.value;
-
-    var idUsuario = sessionStorage.ID_USUARIO;
-
-    fetch("/comentarios/cadastrar", {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        tituloServer: titulo,
-
-        conteudoServer: conteudo,
-
-        comentarioPaiServer: null,
-
-        idUsuarioServer: idUsuario,
-      }),
-    })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          document.getElementById("mensagemComentario").innerHTML =
-            "<p style='color: green;'>✓ Comentário enviado com sucesso!</p>";
-          inputTitulo.value = "";
-          textareaComentario.value = "";
-        } else {
-          throw new Error("Erro ao enviar");
-        }
-      })
-      .catch(function (erro) {
-        console.log(erro);
-        document.getElementById("mensagemComentario").innerHTML =
-          "<p style='color: red;'>✗ Erro ao enviar comentário</p>";
-      });
-  }
-
-  function responder(idComentario) {
-    var resposta = prompt("Digite resposta");
-
-    if (!resposta) return;
-
-    fetch("/comentarios/cadastrar", {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        tituloServer: "Resposta",
-
-        conteudoServer: resposta,
-
-        comentarioPaiServer: idComentario,
-
-        idUsuarioServer: sessionStorage.ID_USUARIO,
-      }),
-    })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          alert("✓ Resposta enviada!");
-        } else {
-          throw new Error("Erro ao enviar");
-        }
-      })
-      .catch(function (erro) {
-        console.log(erro);
-        alert("✗ Erro ao enviar resposta");
-      });
-  }
-
-  function avaliar() {
-    var nota = selectNota.value;
-
-    var idUsuario = sessionStorage.ID_USUARIO;
-
-    var idMusical = 1;
-
-    // Validar se usuário está logado
-    if (!idUsuario) {
-      alert("✗ Você precisa estar logado para avaliar");
-      return;
-    }
-
-    fetch("/avaliacoes/cadastrar", {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        notaServer: nota,
-
-        idUsuarioServer: idUsuario,
-
-        idMusicalServer: idMusical,
-      }),
-    })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          alert("✓ Avaliação enviada com sucesso!");
-          selectNota.value = "1";
-        } else {
-          return resposta.json().then(err => {
-            throw new Error(err.erro || "Erro ao enviar avaliação");
-          });
-        }
-      })
-      .catch(function (erro) {
-        console.log(erro);
-        alert("✗ " + erro.message);
-      });
-  }
-</script>

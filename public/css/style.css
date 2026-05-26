@@ -28,7 +28,7 @@ header {
   flex-direction: row;
   justify-content: space-between;
   background-color: transparent;
-  padding: 10px 20px;
+  padding: 20px 20px;
   align-items: center;
   position: absolute;
   width: calc(100% - 40px);
@@ -56,9 +56,34 @@ header nav a.active {
 }
 header #loginBtn {
   padding: 10px 30px;
-  border: 1px solid black;
+  border: 1px solid var(--platinum);
   text-decoration: none;
-  color: black;
+  color: var(--platinum);
+  box-shadow:
+    inset 0 0 5px var(--platinum),
+    0 0 5px var(--platinum);
+}
+
+header #authButtons a {
+  padding: 10px 20px;
+  border: 1px solid var(--platinum);
+  text-decoration: none;
+  color: var(--platinum);
+}
+
+header #authButtons a:nth-child(2){
+  border: 1px solid var(--winePlum);
+  color: var(--winePlum);
+  box-shadow: 0 0 5px var(--winePlum),inset 0 0 5px var(--winePlum);
+  text-shadow: 0 0 5px var(--winePlum);
+  transition: ease-in-out .1s;
+}
+
+header #authButtons a:nth-child(2):hover{
+    border: 1px solid #da4a59;
+  color:#da4a59;
+  box-shadow: 0 0 5px #da4a59,inset 0 0 5px #da4a59;
+  text-shadow: 0 0 5px #da4a59;
 }
 
 /* ================================================ 
@@ -458,6 +483,7 @@ header #loginBtn {
   height: 30px;
   position: absolute;
   background-color: white;
+  color: var(--jetBlack);
   border-radius: 10px 0;
   justify-content: center;
   align-items: center;
@@ -533,10 +559,22 @@ header #loginBtn {
   width: 40px;
   height: 40px;
 }
-#lab section:nth-child(2) ul li article {
+#lab section:nth-child(2) ul li article a {
+  padding: 5px;
+  border-radius: 5px;
   display: flex;
   flex-direction: row;
   gap: 20px;
+  text-decoration: none;
+  transition: ease-in-out 0.1s;
+}
+
+#lab section:nth-child(2) ul li article a:hover {
+  background-color: var(--carrotOrange);
+}
+
+#lab section:nth-child(2) ul li article h4 {
+  color: #262c2c;
 }
 
 #pontuacaoEJogo {
@@ -568,7 +606,7 @@ header #loginBtn {
   width: 100%;
 }
 
-#pontuacaoFinalJogo{
+#pontuacaoFinalJogo {
   display: none;
   align-items: center;
   flex-direction: column;
@@ -577,11 +615,11 @@ header #loginBtn {
   padding: 10px;
   border: 2px solid var(--platinum);
   box-shadow: 0 2px 2px var(--jetBlack);
-  
+
   border-radius: 10px;
 }
 
-#pontuacaoFinalJogo *{
+#pontuacaoFinalJogo * {
   color: var(--platinum);
 }
 
@@ -592,7 +630,7 @@ header #loginBtn {
   justify-content: space-between;
 }
 
-#pontuacao #pontuacaoDuranteJogo span{
+#pontuacao #pontuacaoDuranteJogo span {
   background-color: #262c2c;
   color: var(--platinum);
   padding: 5px 10px;
@@ -604,7 +642,7 @@ header #loginBtn {
   align-items: center;
 }
 
-#pontuacao #pontuacaoDuranteJogo span span{
+#pontuacao #pontuacaoDuranteJogo span span {
   color: var(--jetBlack);
   min-width: 10px;
   max-width: 10px;
@@ -662,7 +700,7 @@ header #loginBtn {
   border-radius: 10px;
 }
 
-#jogo article:nth-child(2) *{
+#jogo article:nth-child(2) * {
   color: var(--platinum);
 }
 
@@ -684,24 +722,168 @@ header #loginBtn {
   border: 1px solid var(--platinum);
   box-shadow: 0 2px 2px rgba(255, 255, 255, 0.25);
   color: var(--platinum);
-
 }
 
-#pontuacaoEJogo #botoes button:disabled{
+#pontuacaoEJogo #botoes button:disabled {
   filter: opacity(25%);
 }
 
-#btnIniciarQuiz{
+#btnIniciarQuiz {
   padding: 10px 20px;
   background-color: var(--darkSpruce);
   border-radius: 100px;
   color: #efefef;
-  transition: ease-in-out .1s;
+  transition: ease-in-out 0.1s;
   border: 2px solid var(--platinum);
   box-shadow: 0 2px 2px var(--jetBlack);
 }
 
-#btnIniciarQuiz:hover{
+#btnIniciarQuiz:hover {
   background-color: var(--winePlum);
+}
 
+#comentarioSec {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+#comentarioSec article {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--platinum);
+  border-radius: 10px;
+  box-shadow: 0 0 5px var(--platinum);
+}
+
+#comentarioSec article input,
+#comentarioSec article textarea {
+  padding: 10px;
+  resize: none;
+  border-radius: 5px;
+  border: 1px solid var(--jetBlack);
+}
+
+#comentarioSec article * {
+  color: var(--jetBlack);
+}
+
+#comentarioSec article button {
+  background-color: var(--darkSpruce);
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  color: var(--platinum);
+  transition: ease-in-out 0.2s;
+}
+
+#comentarioSec article button:hover {
+  background-color: var(--winePlum);
+}
+
+#comentarioSec article div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.comentario-item {
+  background-color: var(--platinum);
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px var(--platinum);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comentario-header {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 1.25rem;
+}
+
+.comentario-header p {
+  padding: 4px 10px;
+  border: 1px solid var(--jetBlack);
+  font-size: 0.7rem;
+  border-radius: 20px;
+}
+#mensagemComentario {
+  width: 100%;
+  max-width: 530px;
+}
+
+#comentarioSec .lista-comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px;
+
+  flex: 1;
+  overflow-y: scroll;
+  padding: 5px;
+}
+
+#comentarioSec .lista-comentarios::-webkit-scrollbar {
+  appearance: none;
+  width: 2px;
+}
+
+#comentarioSec .lista-comentarios::-webkit-scrollbar-thumb {
+  background-color: var(--platinum);
+}
+
+.comentario-item * {
+  color: var(--jetBlack);
+}
+
+.comentario-item button {
+  padding: 5px 10px;
+  background-color: var(--jetBlack);
+  color: var(--platinum);
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+.comentario-item .comentario-item {
+  box-shadow: -10px 0 5px -5px rgba(0, 62, 119, 0.25);
+}
+
+#dashs .usuario-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+  grid-auto-rows: repeat(auto-fit, minmax(300px, 400px));
+  gap: 10px;
+  justify-content: center;
+  padding: 10px 20px;
+}
+#dashs .usuario-card {
+  background-color: var(--platinum);
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#dashs .usuario-card * {
+  color: var(--jetBlack);
+}
+
+#dashs main {
+  padding-top: 40px;
+}
+
+#dashs article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -30,7 +30,6 @@ function cadastrar(req, res){
                     if (!resultado || resultado.length === 0) {
                         return res.status(400).json({erro: "Comentário pai não encontrado"});
                     }
-                    // Comentário pai existe, prosseguir com inserção
                     inserirComentario(titulo, conteudo, comentarioPai, idUsuario, res);
                 })
                 .catch(function(erro) {
@@ -63,7 +62,36 @@ function inserirComentario(titulo, conteudo, comentarioPai, idUsuario, res) {
     });
 }
 
+function listar(req, res) {
+    comentarioModel.listar()
+        .then(function(resultado) {
+            res.json(resultado);
+        })
+        .catch(function(erro) {
+            console.log(erro);
+            res.status(500).json({erro: "Erro ao listar comentários"});
+        });
+}
+
+function totalPorUsuario(req, res) {
+    var idUsuario = req.params.id;
+    comentarioModel.contarPorUsuario(idUsuario)
+        .then(function(resultado) {
+            if (resultado && resultado.length > 0) {
+                res.json(resultado[0]);
+            } else {
+                res.json({ totalComentarios: 0 });
+            }
+        })
+        .catch(function(erro) {
+            console.log(erro);
+            res.status(500).json({erro: "Erro ao contar comentários do usuário"});
+        });
+}
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    listar,
+    totalPorUsuario
 }
 

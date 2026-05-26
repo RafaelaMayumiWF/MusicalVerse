@@ -16,6 +16,23 @@ function buscarTotalPontos(req, res) {
     });
 }
 
+function buscarPontosUsuario(req, res) {
+  var idUsuario = req.params.id;
+  pontosModel
+    .buscarPontosUsuario(idUsuario)
+    .then(function (resultado) {
+      if (resultado.length > 0) {
+        res.status(200).json(resultado[0]);
+      } else {
+        res.status(200).json({ pontosUsuario: 0 });
+      }
+    })
+    .catch(function (erro) {
+      console.log("Erro ao buscar pontos do usuário:", erro.sqlMessage || erro);
+      res.status(500).json(erro.sqlMessage || erro);
+    });
+}
+
 function adicionarPontos(req, res) {
   var idUsuarioRaw = req.body.idUsuario;
   var pontosRaw = req.body.pontos;
@@ -65,5 +82,6 @@ function adicionarPontos(req, res) {
 
 module.exports = {
   buscarTotalPontos,
+  buscarPontosUsuario,
   adicionarPontos,
 };
