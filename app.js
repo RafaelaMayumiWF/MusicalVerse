@@ -21,6 +21,7 @@ var avisosRouter = require("./src/routes/avisos");
 var pontosRouter = require('./src/routes/pontos');
 var comentarioRouter = require("./src/routes/comentario");
 var avaliacaoRouter = require("./src/routes/avaliacao");
+var musicalRouter = require("./src/routes/musical");
 
 
 app.use(express.json());
@@ -35,6 +36,7 @@ app.use("/avisos", avisosRouter);
 app.use('/pontos', pontosRouter);
 app.use("/comentarios", comentarioRouter);
 app.use("/avaliacoes", avaliacaoRouter);
+app.use("/musicais", musicalRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

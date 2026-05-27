@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/background.css" />
 
@@ -61,20 +63,38 @@
           </p>
         </article>
       </section>
-      <section class="usuario-summary">
-        <div class="usuario-card">
+      <section class="usuario-summary" style="display: flex;flex-wrap: wrap;">
+        <div class="usuario-card" style="flex: 1;min-width: 400px;">
           <p id="totalComentarios">0</p>
           <h2>Comentários enviados</h2>
         </div>
-        <div class="usuario-card">
+        <div class="usuario-card" style="flex: 1;min-width: 400px;">
           <p id="totalPontos">0</p>
           <h2>Pontos de quiz</h2>
+        </div> 
+        <div class="usuario-chart-card" style="flex: 1;min-width: 500px;">
+          <h3>Comentários por hora</h3>
+          <canvas id="comentariosSemanaChart"></canvas>
+        </div>
+        <div class="usuario-chart-card" style="flex: 1;min-width: 500px;">
+          <h3>Progresso de pontos</h3>
+          <canvas id="pontosUsuarioChart"></canvas>
         </div>
       </section>
     </main>
 
     <script>
+      var comentariosSemanaChart = null;
+      var pontosUsuarioChart = null;
+      var totalPossivelPontos = 30;
+
       var usuarioId = sessionStorage.ID_USUARIO;
+
+      window.addEventListener('pontosAtualizados', function () {
+        if (usuarioId) {
+          carregarDashboardUsuario(usuarioId);
+        }
+      });
 
       if (!usuarioId) {
         document.querySelector("main").innerHTML =
@@ -83,7 +103,112 @@
         carregarDashboardUsuario(usuarioId);
       }
 
+      function renderizarComentariosSemana(dadosSemanais) {
+        var labels = Array.from({ length: 24 }, function (_, index) {
+          return String(index).padStart(2, '0') + ':00';
+        });
+
+        var contagensPorHora = Array(24).fill(0);
+
+        dadosSemanais.forEach(function (item) {
+          var hora = item.hora ? Number(String(item.hora).split(':')[0]) : null;
+          if (!isNaN(hora) && hora >= 0 && hora < 24) {
+            contagensPorHora[hora] = Number(item.totalComentarios) || 0;
+          }
+        });
+
+        if (comentariosSemanaChart) {
+          comentariosSemanaChart.destroy();
+        }
+
+        comentariosSemanaChart = new Chart(
+          document.getElementById('comentariosSemanaChart'),
+          {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Comentários',
+                  data: contagensPorHora,
+                  backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    precision: 0,
+                  },
+                },
+                x: {
+                  ticks: {
+                    maxRotation: 90,
+                    minRotation: 0,
+                    autoSkip: true,
+                    maxTicksLimit: 12,
+                  },
+                },
+              },
+            },
+          },
+        );
+      }
+
+      function renderizarPontosUsuario(pontosUsuario) {
+        var pontosConquistados = Math.min(Number(pontosUsuario) || 0, totalPossivelPontos);
+        var pontosRestantes = Math.max(totalPossivelPontos - pontosConquistados, 0);
+
+        if (pontosUsuarioChart) {
+          pontosUsuarioChart.destroy();
+        }
+
+        pontosUsuarioChart = new Chart(
+          document.getElementById('pontosUsuarioChart'),
+          {
+            type: 'pie',
+            data: {
+              labels: ['Pontos conquistados', 'Pontos restantes'],
+              datasets: [
+                {
+                  data: [pontosConquistados, pontosRestantes],
+                  backgroundColor: ['#4e79a7', '#f28e2b'],
+                  borderColor: '#ffffff',
+                  borderWidth: 2,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                },
+              },
+            },
+          },
+        );
+      }
+
       function carregarDashboardUsuario(idUsuario) {
+        var pontosSessao = Number(sessionStorage.getItem('PONTOS_USUARIO') || 0);
+        if (pontosSessao > 0) {
+          document.getElementById("totalPontos").innerText = pontosSessao;
+          renderizarPontosUsuario(pontosSessao);
+        }
+
         Promise.all([
           fetch(`/comentarios/total-usuario/${idUsuario}`),
           fetch(`/pontos/usuario/${idUsuario}`),
@@ -99,16 +224,39 @@
           .then(function (dados) {
             var comentarios = dados[0];
             var pontos = dados[1];
+            var pontosUsuario = Number(pontos.pontosUsuario || 0);
+
+            if (pontosUsuario === 0 && pontosSessao > 0) {
+              pontosUsuario = pontosSessao;
+            }
+
+            sessionStorage.setItem('PONTOS_USUARIO', String(pontosUsuario));
 
             document.getElementById("totalComentarios").innerText =
               comentarios.totalComentarios || 0;
             document.getElementById("totalPontos").innerText =
-              pontos.pontosUsuario || 0;
+              pontosUsuario;
+
+            renderizarPontosUsuario(pontosUsuario);
           })
           .catch(function (erro) {
             console.error(erro);
             document.getElementById("totalComentarios").innerText = "---";
-            document.getElementById("totalPontos").innerText = "---";
+            document.getElementById("totalPontos").innerText = pontosSessao || 0;
+            renderizarPontosUsuario(pontosSessao || 0);
+          });
+
+        fetch(`/comentarios/semana/${idUsuario}`)
+          .then(function (res) {
+            if (!res.ok) throw new Error("Erro ao carregar dados semanais");
+            return res.json();
+          })
+          .then(function (semanal) {
+            renderizarComentariosSemana(semanal || []);
+          })
+          .catch(function (erro) {
+            console.error(erro);
+            renderizarComentariosSemana([]);
           });
       }
 

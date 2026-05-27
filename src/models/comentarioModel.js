@@ -20,9 +20,9 @@ function cadastrar(
     // Sempre incluir a coluna comentario_id_comentario (com NULL se não houver pai)
     var instrucao = `
         INSERT INTO comentario
-            (titulo, conteudo, comentario_id_comentario, usuario_id_usuario)
+            (titulo, conteudo, comentario_id_comentario, usuario_id_usuario, data_criacao)
         VALUES
-            (?, ?, ?, ?);
+            (?, ?, ?, ?, NOW());
     `;
     
     var valores = [titulo, conteudo, comentarioPaiValue, idUsuario];
@@ -57,10 +57,28 @@ function contarPorUsuario(idUsuario) {
     return database.executarComParametros(instrucao, [idUsuario]);
 }
 
+function contarPorUsuarioNaSemana(idUsuario) {
+    var instrucao = `
+        SELECT hora,
+               COUNT(*) AS totalComentarios
+        FROM (
+            SELECT DATE_FORMAT(data_criacao, '%H:00') AS hora
+            FROM comentario
+            WHERE usuario_id_usuario = ?
+              AND data_criacao >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+        ) AS horas_comentarios
+        GROUP BY hora
+        ORDER BY STR_TO_DATE(hora, '%H:%i') ASC;
+    `;
+
+    return database.executarComParametros(instrucao, [idUsuario]);
+}
+
 module.exports = {
     cadastrar,
     listar,
-    contarPorUsuario
+    contarPorUsuario,
+    contarPorUsuarioNaSemana
 }
 
 // SELECT

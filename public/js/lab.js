@@ -1,7 +1,52 @@
 document.addEventListener("DOMContentLoaded", function () {
     atualizarBotoesLogin();
     carregarComentarios();
+    inicializarMusicalAleatorio();
   });
+
+  var musicalSelecionado = null;
+
+  function inicializarMusicalAleatorio() {
+    var botaoSorteio = document.getElementById("btnSortearMusical");
+
+    if (!botaoSorteio) return;
+
+    botaoSorteio.addEventListener("click", sortearMusicalAleatorio);
+  }
+
+  function sortearMusicalAleatorio() {
+    fetch("/musicais/aleatorio")
+      .then(function (resposta) {
+        if (!resposta.ok) {
+          throw new Error("Não foi possível sortear um musical");
+        }
+
+        return resposta.json();
+      })
+      .then(function (musical) {
+        musicalSelecionado = musical;
+
+        var area = document.getElementById("musicalAleatorioCard");
+        if (!area) return;
+
+        area.innerHTML = `
+          <h3>${escapeHtml(musical.nome || "Musical sem nome")}</h3>
+          <p><strong>Descrição:</strong> ${escapeHtml(musical.descricao || "Sem descrição")}</p>
+          <p><strong>Categorias:</strong> ${escapeHtml(musical.categorias || "Sem categoria")}</p>
+          
+          <p><strong>Data de estreia:</strong> ${escapeHtml(musical.data_estreia || "Não informada")}</p>
+          
+        `;
+      })
+      .catch(function (erro) {
+        console.log(erro);
+
+        var area = document.getElementById("musicalAleatorioCard");
+        if (!area) return;
+
+        area.innerHTML = "<p style='color: red;'>✗ Não foi possível sortear um musical agora.</p>";
+      });
+  }
 
   function atualizarBotoesLogin() {
     var authButtons = document.getElementById("authButtons");
@@ -220,7 +265,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var idUsuario = sessionStorage.ID_USUARIO;
 
-    var idMusical = 1;
+    if (!musicalSelecionado || !musicalSelecionado.id_musical) {
+      alert("✗ Sorteie um musical antes de avaliar");
+      return;
+    }
+
+    var idMusical = musicalSelecionado.id_musical;
 
     if (!idUsuario) {
       alert("✗ Você precisa estar logado para avaliar");

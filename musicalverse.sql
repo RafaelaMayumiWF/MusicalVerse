@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`usuario` (
   `email` VARCHAR(45) NOT NULL,
   `senha` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_usuario`),
-  UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 select * from usuario;
@@ -58,9 +58,10 @@ CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`comentario` (
   `conteudo` TEXT NULL,
   `comentario_id_comentario` INT NOT NULL,
   `usuario_id_usuario` INT NOT NULL,
+  `data_criacao` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_comentario`),
-  INDEX `fk_comentario_comentario1_idx` (`comentario_id_comentario` ASC) VISIBLE,
-  INDEX `fk_comentario_usuario1_idx` (`usuario_id_usuario` ASC) VISIBLE,
+  INDEX `fk_comentario_comentario1_idx` (`comentario_id_comentario` ASC),
+  INDEX `fk_comentario_usuario1_idx` (`usuario_id_usuario` ASC),
   CONSTRAINT `fk_comentario_comentario1`
     FOREIGN KEY (`comentario_id_comentario`)
     REFERENCES `bd_musicalverse`.`comentario` (`id_comentario`)
@@ -95,8 +96,8 @@ CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`avaliacao` (
   `data_avaliacao` DATE NULL,
   `id_avaliacao` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`usuario_id_usuario`, `musical_id_musical`),
-  INDEX `fk_avaliacao_usuario1_idx` (`usuario_id_usuario` ASC) VISIBLE,
-  INDEX `fk_avaliacao_musical1_idx` (`musical_id_musical` ASC) VISIBLE,
+  INDEX `fk_avaliacao_usuario1_idx` (`usuario_id_usuario` ASC),
+  INDEX `fk_avaliacao_musical1_idx` (`musical_id_musical` ASC),
   CONSTRAINT `fk_avaliacao_usuario1`
     FOREIGN KEY (`usuario_id_usuario`)
     REFERENCES `bd_musicalverse`.`usuario` (`id_usuario`)
@@ -117,8 +118,8 @@ CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`categoria_has_musical` (
   `categoria_id_categoria` INT NOT NULL,
   `musical_id_musical` INT NOT NULL,
   PRIMARY KEY (`categoria_id_categoria`, `musical_id_musical`),
-  INDEX `fk_categoria_has_musical_musical1_idx` (`musical_id_musical` ASC) VISIBLE,
-  INDEX `fk_categoria_has_musical_categoria1_idx` (`categoria_id_categoria` ASC) VISIBLE,
+  INDEX `fk_categoria_has_musical_musical1_idx` (`musical_id_musical` ASC),
+  INDEX `fk_categoria_has_musical_categoria1_idx` (`categoria_id_categoria` ASC),
   CONSTRAINT `fk_categoria_has_musical_categoria1`
     FOREIGN KEY (`categoria_id_categoria`)
     REFERENCES `bd_musicalverse`.`categoria` (`id_categoria`)
@@ -135,3 +136,68 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO categoria (id_categoria, nome, descricao) VALUES
+(1, 'Drama', 'Histórias emocionantes e intensas'),
+(2, 'Romance', 'Relacionamentos e conexões afetivas'),
+(3, 'Comédia', 'Narrativas leves e divertidas'),
+(4, 'Fantasia', 'Universos mágicos e imaginativos'),
+(5, 'Histórico', 'Baseado em acontecimentos históricos'),
+(6, 'Musical Pop', 'Musicais com estilo musical moderno'),
+(7, 'Reflexivo', 'Temas emocionais e psicológicos'),
+(8, 'Família', 'Conteúdo voltado para todas as idades'),
+(9, 'Suspense', 'Mistério e tensão'),
+(10, 'Animação', 'Adaptações animadas e infantis');
+
+
+INSERT INTO musical (id_musical, nome, descricao) VALUES
+(1, 'Wicked', 'Musical que reimagina a história das bruxas de Oz, mostrando amizade, preconceito e escolhas que mudam destinos.'),
+(2, 'Legalmente Loira', 'Acompanhe Elle Woods em sua jornada de autodescoberta, mostrando inteligência, superação e independência feminina.'),
+(3, 'Hamilton', 'Musical inspirado na vida de Alexander Hamilton, misturando história, política e músicas contemporâneas.'),
+(4, 'Cats', 'Espetáculo baseado nos poemas de T.S. Eliot, acompanhando gatos com diferentes histórias e personalidades.'),
+(5, 'O Fantasma da Ópera', 'Clássico sobre obsessão, música e mistério ambientado em uma casa de ópera em Paris.'),
+(6, 'Shrek o Musical', 'Adaptação divertida do famoso ogro, explorando amizade, aceitação e identidade.'),
+(7, 'La La Land', 'História emocionante sobre sonhos, música e os desafios entre amor e carreira artística.'),
+(8, 'Os Muppets', 'Musical divertido sobre amizade, trabalho em equipe e a importância de acreditar nos próprios sonhos.'),
+(9, 'A Pequena Sereia', 'Ariel desafia limites para descobrir o mundo humano e encontrar sua própria voz.'),
+(10, 'Hairspray', 'Musical vibrante que aborda inclusão, preconceito e mudanças sociais através da dança e música.'),
+(11, 'Cabaret', 'Musical ambientado na Alemanha pré-guerra, mostrando excessos, política e decadência social.'),
+(12, 'Chicago', 'História sobre fama, manipulação e ambição no mundo do entretenimento e do crime.'),
+(13, 'A Noviça Rebelde', 'Clássico sobre música, família e esperança em tempos difíceis.'),
+(14, 'Mamma Mia', 'Musical leve e divertido inspirado nas músicas do ABBA, focado em amor e família.'),
+(15, 'Os Miseráveis', 'Drama emocionante sobre pobreza, justiça, esperança e redenção na França do século XIX.'),
+(16, 'O Rei Leão', 'A jornada de Simba explora amadurecimento, responsabilidade e legado familiar.'),
+(17, 'A Família Addams', 'Versão musical da famosa família excêntrica, misturando humor sombrio e relações familiares.'),
+(18, 'Uma Linda Mulher', 'Adaptação romântica sobre transformação pessoal e diferenças sociais.'),
+(19, 'Mean Girls', 'Musical adolescente que aborda popularidade, amizade e pressão social.'),
+(20, 'Heathers', 'Comédia sombria sobre bullying, pressão social e consequências das escolhas.'),
+(21, 'Dom Casmurro – O Musical', 'Adaptação musical da obra de Machado de Assis, explorando ciúmes, dúvidas e memória.'),
+(22, 'Grease', 'Clássico musical adolescente sobre romances, amizades e juventude nos anos 50.'),
+(23, 'Six', 'As seis esposas de Henrique VIII contam suas histórias em um musical pop moderno e empoderado.');
+
+
+INSERT INTO categoria_has_musical (categoria_id_categoria, musical_id_musical) VALUES
+
+(4,1),(7,1),
+(2,2),(3,2),
+(5,3),(6,3),
+(4,4),(8,4),
+(1,5),(9,5),
+(3,6),(4,6),
+(2,7),(7,7),
+(3,8),(8,8),
+(4,9),(10,9),
+(3,10),(7,10),
+(1,11),(5,11),
+(1,12),(9,12),
+(2,13),(8,13),
+(2,14),(3,14),
+(1,15),(5,15),
+(4,16),(8,16),
+(3,17),(9,17),
+(2,18),(3,18),
+(3,19),(7,19),
+(3,20),(9,20),
+(1,21),(7,21),
+(2,22),(3,22),
+(5,23),(6,23);

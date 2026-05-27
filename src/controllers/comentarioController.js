@@ -89,9 +89,22 @@ function totalPorUsuario(req, res) {
         });
 }
 
+function semanalPorUsuario(req, res) {
+    var idUsuario = req.params.id;
+    comentarioModel.contarPorUsuarioNaSemana(idUsuario)
+        .then(function(resultado) {
+            res.json(resultado);
+        })
+        .catch(function(erro) {
+            console.log(erro);
+            res.json([]);
+        });
+}
+
 module.exports = {
     cadastrar,
     listar,
-    totalPorUsuario
+    totalPorUsuario,
+    semanalPorUsuario
 }
 

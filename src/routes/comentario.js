@@ -23,4 +23,10 @@ router.get("/total-usuario/:id", function(req, res){
 
 });
 
+router.get("/semana/:id", function(req, res){
+
+    comentarioController.semanalPorUsuario(req, res);
+
+});
+
 module.exports = router;
