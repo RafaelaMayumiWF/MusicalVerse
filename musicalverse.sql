@@ -40,11 +40,9 @@ select * from usuario;
 CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`musical` (
   `id_musical` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NULL,
-  `descricao` VARCHAR(100) NULL,
+  `descricao` VARCHAR(200) NULL,
   `data_criacao` DATE NULL,
   `data_estreia` VARCHAR(45) NULL,
-  `base` VARCHAR(50) NULL,
-  `musicalcol` VARCHAR(45) NULL,
   PRIMARY KEY (`id_musical`))
 ENGINE = InnoDB;
 
@@ -56,9 +54,9 @@ CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`comentario` (
   `id_comentario` INT NOT NULL AUTO_INCREMENT,
   `titulo` VARCHAR(30) NULL,
   `conteudo` TEXT NULL,
-  `comentario_id_comentario` INT NOT NULL,
+  `data_criacao` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `comentario_id_comentario` INT,
   `usuario_id_usuario` INT NOT NULL,
-  `data_criacao` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_comentario`),
   INDEX `fk_comentario_comentario1_idx` (`comentario_id_comentario` ASC),
   INDEX `fk_comentario_usuario1_idx` (`usuario_id_usuario` ASC),
@@ -74,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`comentario` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
+drop table comentario;
 -- -----------------------------------------------------
 -- Table `bd_musicalverse`.`categoria`
 -- -----------------------------------------------------
@@ -84,32 +82,6 @@ CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`categoria` (
   `descricao` VARCHAR(45) NULL,
   PRIMARY KEY (`id_categoria`))
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `bd_musicalverse`.`avaliacao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_musicalverse`.`avaliacao` (
-  `usuario_id_usuario` INT NOT NULL,
-  `musical_id_musical` INT NOT NULL,
-  `nota` INT NOT NULL,
-  `data_avaliacao` DATE NULL,
-  `id_avaliacao` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`usuario_id_usuario`, `musical_id_musical`),
-  INDEX `fk_avaliacao_usuario1_idx` (`usuario_id_usuario` ASC),
-  INDEX `fk_avaliacao_musical1_idx` (`musical_id_musical` ASC),
-  CONSTRAINT `fk_avaliacao_usuario1`
-    FOREIGN KEY (`usuario_id_usuario`)
-    REFERENCES `bd_musicalverse`.`usuario` (`id_usuario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_avaliacao_musical1`
-    FOREIGN KEY (`musical_id_musical`)
-    REFERENCES `bd_musicalverse`.`musical` (`id_musical`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `bd_musicalverse`.`categoria_has_musical`
@@ -175,6 +147,7 @@ INSERT INTO musical (id_musical, nome, descricao) VALUES
 (22, 'Grease', 'Clássico musical adolescente sobre romances, amizades e juventude nos anos 50.'),
 (23, 'Six', 'As seis esposas de Henrique VIII contam suas histórias em um musical pop moderno e empoderado.');
 
+use bd_musicalverse;
 
 INSERT INTO categoria_has_musical (categoria_id_categoria, musical_id_musical) VALUES
 

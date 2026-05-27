@@ -9,8 +9,6 @@ function sortearAleatorio() {
             m.descricao,
             m.data_criacao,
             m.data_estreia,
-            m.base,
-            m.musicalcol,
             GROUP_CONCAT(DISTINCT CONCAT(c.nome, ' (', c.descricao, ')') ORDER BY c.nome SEPARATOR ', ') AS categorias
         FROM musical m
         LEFT JOIN categoria_has_musical cm
