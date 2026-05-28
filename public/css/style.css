@@ -2,7 +2,6 @@
   /* variaveis do ambiente */
   --fontTitle: arial;
   --fontDefault: arial;
-  --font-size: medium;
 
   --platinum: #efefef;
   --jetBlack: #262c2c;
@@ -16,6 +15,7 @@
   padding: 0;
   margin: 0;
   font-family: var(--fontDefault);
+  c
 }
 
 body {

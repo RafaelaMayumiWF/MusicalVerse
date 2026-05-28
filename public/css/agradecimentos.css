@@ -1,8 +1,7 @@
  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      font-size: medium;
-      
+
       --rose:     #ff0a6c;
       --purple:   #ffe15c;
       --teal:     #00c3ff;
@@ -15,6 +14,9 @@
     /* cor amarela #ffb657 */
 
     /* ── Grid de professores ── */
+    *{
+      font-size: 17px;
+    }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
