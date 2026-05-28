@@ -2,7 +2,7 @@
 
     :root {
       --rose:     #ff0a6c;
-      --purple:   #d2ff2f;
+      --purple:   #ffe15c;
       --teal:     #00c3ff;
       --white:    #f5f0ff;
       --muted:    rgba(245,240,255,0.42);
@@ -56,6 +56,9 @@
     .card:nth-child(10) { animation-delay: .64s; }
     .card:nth-child(11) { animation-delay: .77s; }
     .card:nth-child(12) { animation-delay: .90s; }
+    .card:nth-child(13) { animation-delay: .77s; }
+    .card:nth-child(14) { animation-delay: .90s; }
+
 
     /* Brilho sutil no canto superior */
     .card::before {
@@ -81,12 +84,13 @@
       transition: opacity .3s;
     }
     .card:hover::after { opacity: 1; }
-    .card:nth-child(1)::after, .card:nth-child(4)::after { background: var(--rose); }
-    .card:nth-child(2)::after, .card:nth-child(5)::after { background: var(--purple); }
-    .card:nth-child(3)::after, .card:nth-child(6)::after { background: var(--teal); }
-    .card:nth-child(7)::after, .card:nth-child(10)::after { background: var(--rose); }
-    .card:nth-child(8)::after, .card:nth-child(11)::after { background: var(--purple); }
-    .card:nth-child(9)::after, .card:nth-child(12)::after { background: var(--teal); }
+    .card:nth-child(1)::after, .card:nth-child(5)::after { background: var(--rose); }
+    .card:nth-child(2)::after, .card:nth-child(6)::after { background: var(--purple); }
+    .card:nth-child(3)::after, .card:nth-child(11)::after { background: var(--teal); }
+    .card:nth-child(7)::after, .card:nth-child(12)::after { background: var(--rose); }
+    .card:nth-child(8)::after, .card:nth-child(13)::after { background: var(--purple); }
+    .card:nth-child(9)::after, .card:nth-child(14)::after { background: var(--teal); }
+    .card:nth-child(10)::after { background: var(--teal); }
 
 
     /* ── Foto ── */
@@ -113,9 +117,11 @@
     .card:nth-child(7) .foto-anel,
     .card:nth-child(8) .foto-anel { border-top-color: var(--rose); border-right-color: rgba(255,10,108,.2); }
     .card:nth-child(9) .foto-anel,
-    .card:nth-child(10) .foto-anel { border-top-color: var(--purple); border-right-color: rgba(123,47,255,.2); }
+    .card:nth-child(10) .foto-anel { border-top-color: var(--purple); border-right-color: rgba(255, 241, 47, 0.2); }
     .card:nth-child(11) .foto-anel,
     .card:nth-child(12) .foto-anel { border-top-color: var(--teal); border-right-color: rgba(0,195,255,.2); }
+    .card:nth-child(13) .foto-anel,
+    .card:nth-child(14) .foto-anel { border-top-color: var(--rose); border-right-color: rgba(255,10,108,.2); }
 
     @keyframes girar {
       from { transform: rotate(0deg); }
@@ -159,6 +165,8 @@
     .card:nth-child(8) .foto-avatar { background: linear-gradient(135deg, #0d0020, #4a00a8); }
     .card:nth-child(10) .foto-avatar,
     .card:nth-child(7) .foto-avatar { background: linear-gradient(135deg, #001a28, #003d55); }
+     .card:nth-child(13) .foto-avatar,
+    .card:nth-child(14) .foto-avatar { background: linear-gradient(135deg, #001a28, #003d55); }
 
     /* ── Texto do card ── */
     .card-materia {
@@ -182,6 +190,8 @@
     .card:nth-child(10) .card-materia { color: var(--purple); background: rgba(123,47,255,.12); }
     .card:nth-child(11) .card-materia,
     .card:nth-child(12) .card-materia { color: var(--teal); background: rgba(0,195,255,.1); }
+     .card:nth-child(13) .card-materia,
+    .card:nth-child(14) .card-materia { color: var(--teal); background: rgba(0,195,255,.1); }
 
     .card-nome {
       font-family: 'Cormorant Garamond', serif;

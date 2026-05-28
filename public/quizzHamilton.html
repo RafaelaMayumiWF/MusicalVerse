@@ -151,7 +151,7 @@
           </button>
           <!-- <button onclick="finalizar()" id="btnConcluir" disabled>Finalizar Quiz</button> -->
           <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>
-            Tentar novamente
+            Voltar ao início
           </button>
         </div>
       </div>
@@ -370,8 +370,8 @@
   }
 
   function tentarNovamente() {
-    // atualiza a página
-    window.location.reload();
+    // volta para a página anterior
+    window.history.back();
   }
 
   function checarResposta() {
