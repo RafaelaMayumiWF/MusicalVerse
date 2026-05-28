@@ -447,6 +447,21 @@ header #authButtons a:nth-child(2):hover {
     0 0 10px var(--winePlum),
     inset 0 0 4px var(--winePlum);
 }
+
+.loading-div {
+  width: 50px;
+  display: none;
+}
+
+.loading-div img {
+  height: 50px;
+  width: 50px;
+}
+
+#div_erros_login {
+  display: none
+}
+
 /* ================================================ 
                 Agradecimentos
 ================================================ */

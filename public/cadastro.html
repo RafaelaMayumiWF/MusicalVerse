@@ -47,6 +47,8 @@
     <main>
       <a href="./index.html" id="inicioBtn">Inicio</a>
 
+     
+
       <section class="lado1">
         <img src="./img/avatar.png" alt="" />
         <h2>Cadastro</h2>
@@ -90,11 +92,17 @@
       </section>
 
       <section class="lado2">
+          <div class="card_erro" id="cardErro">
+              <span id="mensagem_erro"></span>
+          </div>
         <div>
           <h2>Já tem uma conta?</h2>
           <p>
             Acesse sua conta existente! <a href="./login.html">Acessar Conta</a>
           </p>
+        </div>
+        <div id="div_aguardar" class="loading-div">
+          <img src="./assets/circle-loading.gif" id="loading-gif" />
         </div>
       </section>
     </main>
@@ -150,38 +158,37 @@
 
     var temTamanho = senha.length >= 8;
 
-    atualizarMensagem(maiuscula, temMaiuscula);
+    atualizarMensagem("Tem que possuir 1 letra Maiuscula", temMaiuscula);
 
-    atualizarMensagem(minuscula, temMinuscula);
+    atualizarMensagem("Tem que possuirr 1 letra Minuscula", temMinuscula);
 
-    atualizarMensagem(numero, temNumero);
+    atualizarMensagem("Tem que possuir 1 Número", temNumero);
 
-    atualizarMensagem(especial, temEspecial);
+    atualizarMensagem("Tem que possuiur 1 caracter especial", temEspecial);
 
-    atualizarMensagem(tamanho, temTamanho);
+    atualizarMensagem("A senha tem que ser no mínimo 8 caracteres", temTamanho);
   }
 
-  function atualizarMensagem(elemento, valido) {
-    var texto = elemento.innerHTML.slice(2);
+  function atualizarMensagem(texto, valido) {
 
     if (valido) {
-      elemento.innerHTML = "✔ " + texto;
+      mensagemConfirmacao.innerHTML = "✔ " + texto;
 
-      elemento.style.color = "lime";
+      mensagemConfirmacao.style.color = "lime";
     } else {
-      elemento.innerHTML = "X " + texto;
+      mensagemConfirmacao.innerHTML = "X " + texto;
 
-      elemento.style.color = "red";
+      mensagemConfirmacao.style.color = "red";
     }
   }
 
   function validarConfirmacao() {
     if (senha_input.value == confirmacao_senha_input.value) {
-      mensagemConfirmacao.innerHTML = "✔ Senhas iguais";
+      mensagemConfirmacao.innerHTML = "Senhas iguais";
 
       mensagemConfirmacao.style.color = "lime";
     } else {
-      mensagemConfirmacao.innerHTML = "❌ Senhas diferentes";
+      mensagemConfirmacao.innerHTML = "Senhas diferentes";
 
       mensagemConfirmacao.style.color = "red";
     }
@@ -198,9 +205,9 @@
 
       finalizarAguardar();
       return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
-    }
+    } //else {
+    //   setInterval(sumirMensagem, 5000);
+    // }
 
     fetch("/usuarios/cadastrar", {
       method: "POST",
@@ -242,6 +249,6 @@
 
   // ver isso aqui
   function sumirMensagem() {
-    cardErro.style.display = "none";
+    document.getElementById("cardErro").style.display = "none";
   }
 </script>
